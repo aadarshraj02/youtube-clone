@@ -3,12 +3,12 @@ import Channel from "../model/Channel.js";
 export const createChannel = async (req, res) => {
   try {
     const { channelName, description } = req.body;
-    const ownerId = req.user._id;
+    // const ownerId = req.user._id;
 
     const channel = new Channel({
       channelName,
       description,
-      owner: ownerId,
+      owner: req.user.id,
     });
     const savedChannel = await channel.save();
     res.status(201).json(savedChannel);
@@ -21,16 +21,17 @@ export const createChannel = async (req, res) => {
 };
 
 export const getChannel = async (req, res) => {
-  try {
-  } catch (error) {
-    const { channelId } = req.params;
+  const { channelId } = req.params;
 
+  try {
     const channel = await Channel.findById(channelId).populate("videos");
-    if (!channel)
+    if (!channel) {
       return res.status(404).json({
         message: "Channel not found",
       });
+    }
     res.json(channel);
+  } catch (error) {
     return res.status(500).json({
       message: "Error fetching channel",
       error,
@@ -39,51 +40,38 @@ export const getChannel = async (req, res) => {
 };
 
 export const updateChannel = async (req, res) => {
+  const { channelId } = req.params;
+  const { channelName, description, channelBanner } = req.body;
+
   try {
-    const { channelId } = req.params;
-    const { channelName, description, channelBanner } = req.body;
+    const updatedChannel = await Channel.findByIdAndUpdate(
+      channelId,
+      { channelName, description, channelBanner },
+      { new: true }
+    );
 
-    const channel = await Channel.findById(channelId);
+    if (!updatedChannel) {
+      return res.status(404).json({ message: "Channel not found" });
+    }
 
-    if (!channel) return res.status(404).json({ message: "Channel not found" });
-
-    if (channel.owner.toString() !== req.user._id.toString())
-      return res
-        .status(403)
-        .json({ message: "Not authorized to update this channel" });
-
-    channel.channelName = channelName || channel.channelName;
-    channel.description = description || channel.description;
-    channel.channelBanner = channelBanner || channel.channelBanner;
-
-    const updatedChannel = await channel.save();
     res.json(updatedChannel);
   } catch (error) {
-    return res.status(500).json({
-      message: "Error updating channel",
-      error,
-    });
+    res.status(500).json({ message: "Error updating channel", error });
   }
 };
 
 export const deleteChannel = async (req, res) => {
-  try {
-    const { channelId } = req.params;
+  const { channelId } = req.params;
 
-    const channel = await Channel.findById(channelId);
-    if (!channel) return res.status(404).json({ message: "Channel not found" });
-    if (channel.owner.toString() !== req.user._id.toString()) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized to delete this channel" });
+  try {
+    const deletedChannel = await Channel.findByIdAndDelete(channelId);
+
+    if (!deletedChannel) {
+      return res.status(404).json({ message: "Channel not found" });
     }
 
-    await Channel.findByIdAndDelete(channelId);
     res.json({ message: "Channel deleted successfully" });
   } catch (error) {
-    return res.status(500).json({
-      message: "Error deleting channel",
-      error,
-    });
+    res.status(500).json({ message: "Error deleting channel", error });
   }
 };
