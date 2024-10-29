@@ -5,8 +5,8 @@ import {
   getVideoById,
   updateVideo,
   deleteVideo,
-} from "../controllers/videoController";
-import { verifyToken } from "../middleware/authMiddleware";
+} from "../controllers/videoController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 

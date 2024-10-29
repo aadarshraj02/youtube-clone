@@ -1,4 +1,4 @@
-import Video from "../model/Video";
+import Video from "../model/Video.js";
 
 export const uploadVideo = async (req, res) => {
   const { title, description, thumbnailUrl } = req.body;
@@ -19,7 +19,7 @@ export const uploadVideo = async (req, res) => {
       dislikes: 0,
     });
     await newVideo.save();
-    res.status(201).json({ message: "Video uploaded successfully!" }, newVideo);
+    res.status(201).json(newVideo);
   } catch (error) {
     return res.status(500).json({
       message: "Error uploading video",

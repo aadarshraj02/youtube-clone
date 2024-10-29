@@ -34,12 +34,12 @@ const videoSchema = new mongoose.Schema({
   },
   videoUrl: {
     type: String,
-    required: true,
+    // required: true,
   },
   channelId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Channel",
-    required: true,
+    // required: true,
   },
   uploader: {
     type: mongoose.Schema.Types.ObjectId,
@@ -48,15 +48,12 @@ const videoSchema = new mongoose.Schema({
   },
   views: {
     type: Number,
-    default: 0,
   },
   likes: {
     type: Number,
-    default: 0,
   },
   dislikes: {
     type: Number,
-    default: 0,
   },
   comments: [commentSchema],
   uploadDate: {
