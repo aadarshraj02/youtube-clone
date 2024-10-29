@@ -6,7 +6,11 @@ const commentSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  comment: {
+  username: {
+    type: String,
+    required: true,
+  },
+  commentText: {
     type: String,
     required: true,
   },
@@ -26,6 +30,15 @@ const videoSchema = new mongoose.Schema({
   },
   thumbnailUrl: {
     type: String,
+    required: true,
+  },
+  videoUrl: {
+    type: String,
+    required: true,
+  },
+  channelId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Channel",
     required: true,
   },
   uploader: {

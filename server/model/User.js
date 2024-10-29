@@ -1,22 +1,10 @@
 import mongoose from "mongoose";
 
-const commentSchema = new mongoose.Schema({
-  videoId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Video",
-    required: true,
-  },
-  comment: {
+const userSchema = new mongoose.Schema({
+  fullName: {
     type: String,
     required: true,
   },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -33,23 +21,16 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "",
-  },
-  channel: {
-    name: {
-      type: String,
+    default: function () {
+      return `https://avatars.dicebear.com/api/initials/${this.username}.svg`;
     },
-    description: {
-      type: String,
-    },
-    videos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Video",
-      },
-    ],
   },
-  comments: [commentSchema],
+  channels: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Channel",
+    },
+  ],
 });
 
 export default mongoose.model("User", userSchema);
