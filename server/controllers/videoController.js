@@ -27,3 +27,15 @@ export const uploadVideo = async (req, res) => {
     });
   }
 };
+
+export const getAllVideos = async (req, res) => {
+  try {
+    const videos = await Video.find().populate("uploader", "username").exec();
+    res.json(videos);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error fetching videos",
+      error,
+    });
+  }
+};
