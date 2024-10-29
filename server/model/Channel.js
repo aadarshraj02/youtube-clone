@@ -19,7 +19,6 @@ const channelSchema = new mongoose.Schema({
   },
   subscribers: {
     type: Number,
-    default: 0,
   },
   videos: [
     {
