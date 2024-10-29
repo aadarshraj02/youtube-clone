@@ -59,3 +59,27 @@ export const getVideoById = async (req, res) => {
     });
   }
 };
+
+export const updateVideo = async (req, res) => {
+  const { id } = req.params;
+
+  const { title, description, thumbnailUrl } = req.body;
+
+  try {
+    const updatedVideo = await Video.findByIdAndUpdate(id, {
+      title,
+      description,
+      thumbnailUrl,
+    });
+    if (!updateVideo)
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    res.json(updatedVideo);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to update video",
+      error,
+    });
+  }
+};
