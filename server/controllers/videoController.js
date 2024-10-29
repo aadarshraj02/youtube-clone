@@ -83,3 +83,23 @@ export const updateVideo = async (req, res) => {
     });
   }
 };
+
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedVideo = await Video.findByIdAndDelete(id);
+    if (!deletedVideo)
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    res.status(200).json({
+      message: "Video deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to delete video",
+      error,
+    });
+  }
+};
