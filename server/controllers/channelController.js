@@ -19,3 +19,21 @@ export const createChannel = async (req, res) => {
     });
   }
 };
+
+export const getChannel = async (req, res) => {
+  try {
+  } catch (error) {
+    const { channelId } = req.params;
+
+    const channel = await Channel.findById(channelId).populate("videos");
+    if (!channel)
+      return res.status(404).json({
+        message: "Channel not found",
+      });
+    res.json(channel);
+    return res.status(500).json({
+      message: "Error fetching channel",
+      error,
+    });
+  }
+};
