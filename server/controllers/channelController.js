@@ -60,7 +60,29 @@ export const updateChannel = async (req, res) => {
     res.json(updatedChannel);
   } catch (error) {
     return res.status(500).json({
-      message: "Channel not found",
+      message: "Error updating channel",
+      error,
+    });
+  }
+};
+
+export const deleteChannel = async (req, res) => {
+  try {
+    const { channelId } = req.params;
+
+    const channel = await Channel.findById(channelId);
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
+    if (channel.owner.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this channel" });
+    }
+
+    await Channel.findByIdAndDelete(channelId);
+    res.json({ message: "Channel deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error deleting channel",
       error,
     });
   }
