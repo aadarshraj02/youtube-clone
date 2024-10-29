@@ -1,0 +1,29 @@
+import Video from "../model/Video";
+
+export const uploadVideo = async (req, res) => {
+  const { title, description, thumbnailUrl } = req.body;
+
+  if (!title || !thumbnailUrl)
+    return res.status(400).json({
+      message: "Title and thumbnail are required",
+    });
+
+  try {
+    const newVideo = new Video({
+      title,
+      description,
+      thumbnailUrl,
+      uploader: req.user.id,
+      views: 0,
+      likes: 0,
+      dislikes: 0,
+    });
+    await newVideo.save();
+    res.status(201).json({ message: "Video uploaded successfully!" }, newVideo);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error uploading video",
+      error,
+    });
+  }
+};
