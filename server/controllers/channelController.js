@@ -1,18 +1,32 @@
 import Channel from "../model/Channel.js";
+import User from "../model/User.js";
 
 export const createChannel = async (req, res) => {
   try {
     const { channelName, description } = req.body;
-    // const ownerId = req.user._id;
 
     const channel = new Channel({
       channelName,
       description,
       owner: req.user.id,
     });
+
     const savedChannel = await channel.save();
+    try {
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { channels: savedChannel._id },
+      });
+    } catch (updateError) {
+      console.error("Error updating user channels:", updateError);
+      return res.status(500).json({
+        message: "Channel created, but failed to update user's channels array",
+        error: updateError,
+      });
+    }
+
     res.status(201).json(savedChannel);
   } catch (error) {
+    console.error("Error creating channel:", error);
     return res.status(500).json({
       message: "Error creating channel",
       error,
@@ -24,18 +38,17 @@ export const getChannel = async (req, res) => {
   const { channelId } = req.params;
 
   try {
-    const channel = await Channel.findById(channelId).populate("videos");
+    const channel = await Channel.findById(channelId)
+      .populate("videos")
+      .populate("owner", "username");
+
     if (!channel) {
-      return res.status(404).json({
-        message: "Channel not found",
-      });
+      return res.status(404).json({ message: "Channel not found" });
     }
+
     res.json(channel);
   } catch (error) {
-    return res.status(500).json({
-      message: "Error fetching channel",
-      error,
-    });
+    return res.status(500).json({ message: "Error fetching channel", error });
   }
 };
 

@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/upload", verifyToken, upload.single("video"), uploadVideo);
 router.get("/", getAllVideos);
 router.get("/:id", getVideoById);
-router.put("/:id", updateVideo);
-router.delete("/:id", deleteVideo);
+router.put("/:id", verifyToken, updateVideo);
+router.delete("/:id", verifyToken, deleteVideo);
 
 export default router;
