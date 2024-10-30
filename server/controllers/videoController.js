@@ -1,18 +1,26 @@
 import Video from "../model/Video.js";
+import cloudinary from "../config/cloudinaryConfig.js";
 
 export const uploadVideo = async (req, res) => {
   const { title, description, thumbnailUrl } = req.body;
+  const file = req.files.video;
 
-  if (!title || !thumbnailUrl)
+  if (!title || !thumbnailUrl || !file) {
     return res.status(400).json({
-      message: "Title and thumbnail are required",
+      message: "Title, thumbnail, and video file are required",
     });
+  }
 
   try {
+    const uploadResponse = await cloudinary.uploader.upload(file.tempFilePath, {
+      resource_type: "video",
+    });
+
     const newVideo = new Video({
       title,
       description,
       thumbnailUrl,
+      videoUrl: uploadResponse.secure_url,
       uploader: req.user.id,
       views: 0,
       likes: 0,
