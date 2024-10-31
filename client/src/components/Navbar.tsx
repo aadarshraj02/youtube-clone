@@ -6,7 +6,6 @@ const Navbar = (): JSX.Element => {
     <nav className="flex justify-between items-center px-4 py-2">
       <div className="flex items-center">
         <RxHamburgerMenu />
-
         <img src="./youtubelogo.jpg" alt="youtube-logo" className="h-14" />
       </div>
       <div className="flex items-center gap-2">
