@@ -4,8 +4,8 @@ export const addComment = async (req, res) => {
   try {
     const { videoId } = req.params;
     const { commentText } = req.body;
-    const userId = req.user.id;
-    const username = req.user.username;
+    const userId = req.user.id; 
+    const username = req.user.username; 
 
     const video = await Video.findById(videoId);
     if (!video) return res.status(404).json({ message: "Video not found" });
@@ -16,6 +16,7 @@ export const addComment = async (req, res) => {
       commentText,
       timestamp: new Date(),
     };
+
     video.comments.push(newComment);
     await video.save();
 

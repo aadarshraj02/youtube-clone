@@ -4,11 +4,12 @@ import {
   updateComment,
   deleteComment,
 } from "../controllers/commentController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/:videoId", addComment);
-router.put("/:videoId/:commentId", updateComment);
-router.delete("/:videoId/:commentId", deleteComment);
+router.post("/:videoId",verifyToken, addComment);
+router.put("/:videoId/:commentId",verifyToken, updateComment);
+router.delete("/:videoId/:commentId",verifyToken, deleteComment);
 
 export default router;
