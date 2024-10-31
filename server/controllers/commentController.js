@@ -19,8 +19,49 @@ export const addComment = async (req, res) => {
     video.comments.push(newComment);
     await video.save();
 
-    res.status(201).json({ message: "Comment added successfully", newComment });
+    res.status(201).json({
+      message: "Comment added successfully",
+      newComment,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Unable to add comment", error });
+    return res.status(500).json({
+      message: "Unable to add comment",
+      error,
+    });
   }
-}; 
+};
+
+export const updateComment = async (req, res) => {
+  const { videoId, commentId } = req.params;
+  const { commentText } = req.body;
+
+  try {
+    const video = await Video.findById(videoId);
+    if (!video)
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    const comment = video.comments.id(commentId);
+    if (!comment)
+      return res.status(404).json({
+        message: "Comment not found",
+      });
+
+    if (comment.userId.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to edit this comment" });
+    }
+    comment.commentText = commentText;
+    comment.timestamp = new Date();
+
+    await video.save();
+
+    res.status(200).json({ message: "Comment updated successfully", comment });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to update comment",
+      error,
+    });
+  }
+};
