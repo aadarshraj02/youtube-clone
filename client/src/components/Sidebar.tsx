@@ -4,7 +4,7 @@ import { MdSubscriptions } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
 import { MdPlaylistPlay } from "react-icons/md";
 
-const Sidebar = (): JSX.Element => {
+const Sidebar = ({ isOpen }: { isOpen: boolean }): JSX.Element => {
   const menuItems = [
     {
       name: "Home",
@@ -24,15 +24,19 @@ const Sidebar = (): JSX.Element => {
     },
   ];
   return (
-    <div className="px-4 bg-red-500 h-screen w-48">
-      <div className="flex items-center">
+    <div
+      className={`px-4 h-screen w-48 transition-transform duration-300 ease-linear ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
+      {/* <div className="flex items-center">
         <RxHamburgerMenu />
         <img src="./youtubelogo.jpg" alt="youtube-logo" className="h-14" />
-      </div>
+      </div> */}
       <div className="flex flex-col">
         {menuItems.map((item, index) => (
           <div key={index} className="flex items-center gap-4 mb-3">
-            {item.icon }
+            {item.icon}
             <h3 className="text-lg">{item.name}</h3>
           </div>
         ))}

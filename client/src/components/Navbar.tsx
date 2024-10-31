@@ -1,11 +1,11 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-const Navbar = (): JSX.Element => {
+const Navbar = ({onToggleSidebar}:{onToggleSidebar:()=>void}): JSX.Element => {
   return (
     <nav className="flex justify-between items-center px-4 py-2">
-      <div className="flex items-center">
-        <RxHamburgerMenu />
+      <div className="flex items-center gap-2">
+        <RxHamburgerMenu onClick={onToggleSidebar} className="cursor-pointer" />
         <img src="./youtubelogo.jpg" alt="youtube-logo" className="h-14" />
       </div>
       <div className="flex items-center gap-2">
