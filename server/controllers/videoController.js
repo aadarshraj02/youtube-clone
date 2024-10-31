@@ -66,17 +66,19 @@ export const getVideoById = async (req, res) => {
   try {
     const video = await Video.findById(id)
       .populate("uploader", "username")
+      .populate({
+        path: "comments.userId",
+        select: "username",
+      })
       .exec();
-    if (!video)
-      return res.status(404).json({
-        message: "Video not found",
-      });
+
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
     res.json(video);
   } catch (error) {
-    return res.status(500).json({
-      message: "Error fetching video",
-      error,
-    });
+    return res.status(500).json({ message: "Error fetching video", error });
   }
 };
 
