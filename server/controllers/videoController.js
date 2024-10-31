@@ -60,7 +60,7 @@ export const getAllVideos = async (req, res) => {
   }
 };
 
-export const getVideoById = async (req, res) => {
+export const getVideoWithComments = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -75,8 +75,13 @@ export const getVideoById = async (req, res) => {
     if (!video) {
       return res.status(404).json({ message: "Video not found" });
     }
+    const formattedComments = video.comments.map((comment) => ({
+      commentText: comment.commentText,
+      username: comment.username,
+      timestamp: comment.timestamp,
+    }));
 
-    res.json(video);
+    res.json({ video, comments: formattedComments });
   } catch (error) {
     return res.status(500).json({ message: "Error fetching video", error });
   }
