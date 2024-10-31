@@ -1,6 +1,10 @@
+import Home from "./pages/Home"
+
 const App = ():JSX.Element => {
   return (
-    <div>App</div>
+    <div>
+      <Home/>
+    </div>
   )
 }
 
