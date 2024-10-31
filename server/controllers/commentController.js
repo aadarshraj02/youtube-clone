@@ -1,5 +1,3 @@
-import Video from "../model/Video";
-
 import Video from "../model/Video.js";
 
 export const addComment = async (req, res) => {
@@ -25,4 +23,4 @@ export const addComment = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Unable to add comment", error });
   }
-};
+}; 
