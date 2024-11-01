@@ -1,6 +1,7 @@
 import Video from "../model/Video.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 import Channel from "../model/Channel.js";
+import { formatCount } from "../utilities/formatCount.js";
 
 export const uploadVideo = async (req, res) => {
   const { title, description, thumbnailUrl } = req.body;
@@ -80,13 +81,20 @@ export const getVideoWithComments = async (req, res) => {
     if (!video) {
       return res.status(404).json({ message: "Video not found" });
     }
+
     const formattedComments = video.comments.map((comment) => ({
       commentText: comment.commentText,
       username: comment.username,
       timestamp: comment.timestamp,
     }));
+    const formattedVideo = {
+      ...video.toObject(),
+      views: formatCount(video.views),
+      likes: formatCount(video.likes),
+      dislikes: formatCount(video.dislikes),
+    };
 
-    res.json({ video, comments: formattedComments });
+    res.json({ video: formattedVideo, comments: formattedComments });
   } catch (error) {
     return res.status(500).json({ message: "Error fetching video", error });
   }
