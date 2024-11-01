@@ -4,8 +4,8 @@ export const addComment = async (req, res) => {
   try {
     const { videoId } = req.params;
     const { commentText } = req.body;
-    const userId = req.user.id; 
-    const username = req.user.username; 
+    const userId = req.user.id;
+    const username = req.user.username;
 
     const video = await Video.findById(videoId);
     if (!video) return res.status(404).json({ message: "Video not found" });
@@ -72,26 +72,26 @@ export const deleteComment = async (req, res) => {
 
   try {
     const video = await Video.findById(videoId);
-    if (!video)
-      return res.status(404).json({
-        message: "Video not found",
-      });
+    if (!video) return res.status(404).json({ message: "Video not found" });
 
     const comment = video.comments.id(commentId);
-    if (!comment)
-      return res.status(404).json({
-        message: "Comment not found",
-      });
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
+
     if (comment.userId.toString() !== req.user.id) {
       return res
         .status(403)
-        .json({ message: "Unauthorized to delete this comment" });
+        .json({ message: "User not authorized to delete this comment." });
     }
-    comment.remove();
+    video.comments = video.comments.filter(
+      (c) => c._id.toString() !== commentId
+    );
     await video.save();
 
     res.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Unable to delete comment", error });
+    return res.status(500).json({
+      message: "Unable to delete comment",
+      error,
+    });
   }
 };
