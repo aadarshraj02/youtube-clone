@@ -1,14 +1,18 @@
 import Channel from "../model/Channel.js";
 import User from "../model/User.js";
+import { formatCount } from "../utilities/formatCount.js";
 
 export const createChannel = async (req, res) => {
   try {
     const { channelName, description } = req.body;
 
+    const randomSubscribers = Math.floor(Math.random() * 10000 + 800);
+
     const channel = new Channel({
       channelName,
       description,
       owner: req.user.id,
+      subscribers: randomSubscribers,
     });
 
     const savedChannel = await channel.save();
@@ -45,8 +49,12 @@ export const getChannel = async (req, res) => {
     if (!channel) {
       return res.status(404).json({ message: "Channel not found" });
     }
+    const formattedChannel = {
+      ...channel.toObject(),
+      subscribers: formatCount(channel.subscribers),
+    };
 
-    res.json(channel);
+    res.json(formattedChannel);
   } catch (error) {
     return res.status(500).json({ message: "Error fetching channel", error });
   }
