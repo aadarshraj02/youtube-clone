@@ -23,6 +23,11 @@ export const uploadVideo = async (req, res) => {
     const result = await cloudinary.uploader.upload(fileBase64, {
       resource_type: "video",
     });
+
+    const randomLikes = Math.floor(Math.random() * 10000 + 2000);
+    const randomDislikes = Math.floor(Math.random() * 500 + 70);
+    const randomViews = Math.floor(Math.random() * 500000 + 5000);
+
     const newVideo = new Video({
       title,
       description,
@@ -30,9 +35,9 @@ export const uploadVideo = async (req, res) => {
       videoUrl: result.secure_url,
       uploader: req.user.id,
       channelId: userChannel._id,
-      views: 0,
-      likes: 0,
-      dislikes: 0,
+      views: randomViews,
+      likes: randomLikes,
+      dislikes: randomDislikes,
     });
 
     const savedVideo = await newVideo.save();
