@@ -55,6 +55,10 @@ const videoSchema = new mongoose.Schema({
   dislikes: {
     type: Number,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   comments: [commentSchema],
   uploadDate: {
     type: Date,
