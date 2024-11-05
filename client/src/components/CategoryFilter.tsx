@@ -19,7 +19,7 @@ const Category = (): JSX.Element => {
   };
 
   return (
-    <div className="px-4">
+    <div className="px-4 hidden lg:flex">
     <div className="flex gap-4 overflow-x-auto px-4 py-2 whitespace-nowrap">
       {categories.map((category) => (
         <button
