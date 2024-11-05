@@ -1,6 +1,5 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import CategoryFilter from "./CategoryFilter";
 
 const Navbar = ({
   onToggleSidebar,
@@ -26,7 +25,6 @@ const Navbar = ({
         </div>
         <button>Profile</button>
       </nav>
-      <CategoryFilter />
     </>
   );
 };

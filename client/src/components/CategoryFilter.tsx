@@ -19,6 +19,7 @@ const Category = (): JSX.Element => {
   };
 
   return (
+    <div className="px-4">
     <div className="flex gap-4 overflow-x-auto px-4 py-2 whitespace-nowrap">
       {categories.map((category) => (
         <button
@@ -33,6 +34,7 @@ const Category = (): JSX.Element => {
           {category}
         </button>
       ))}
+    </div>
     </div>
   );
 };
