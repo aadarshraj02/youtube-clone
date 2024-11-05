@@ -5,6 +5,7 @@ import {
   getVideoWithComments,
   updateVideo,
   deleteVideo,
+  getVideosByCategory,
 } from "../controllers/videoController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import upload from "../config/multerConfig.js";
@@ -16,5 +17,6 @@ router.get("/", getAllVideos);
 router.get("/:id", getVideoWithComments);
 router.put("/:id", verifyToken, updateVideo);
 router.delete("/:id", verifyToken, deleteVideo);
+router.get("/category/:category", getVideosByCategory);
 
 export default router;

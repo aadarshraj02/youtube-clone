@@ -39,6 +39,7 @@ export const uploadVideo = async (req, res) => {
       views: randomViews,
       likes: randomLikes,
       dislikes: randomDislikes,
+      category,
     });
 
     const savedVideo = await newVideo.save();
@@ -97,6 +98,27 @@ export const getVideoWithComments = async (req, res) => {
     res.json({ video: formattedVideo, comments: formattedComments });
   } catch (error) {
     return res.status(500).json({ message: "Error fetching video", error });
+  }
+};
+
+export const getVideosByCategory = async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    const videos = await Video.find({ category })
+      .populate("uploader", "username")
+      .exec();
+    if (videos.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No videos found for this category." });
+    }
+    res.json(videos);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error fetching videos",
+      error,
+    });
   }
 };
 
