@@ -36,14 +36,24 @@ const Signup = (): JSX.Element => {
         console.log(values);
       }}
     >
-      <Form>
-        <div>
-          <label htmlFor="username">Username</label>
+      <Form className=" h-[85vh] w-full flex flex-col items-center justify-center px-10">
+        <h2 className="text-zinc-700 uppercase text-2xl font-semibold mb-2">
+          Signup Form
+        </h2>
+        <p className="mb-5 text-sm text-zinc-400">
+          Enter all the required fields and click on signup button for creating
+          an account
+        </p>
+        <div className="flex flex-col w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw]">
+          <label htmlFor="username" className="text-zinc-600 mb-2 text-xl">
+            Enter your Username
+          </label>
           <Field
             type="text"
             id="username"
             name="username"
             placeholder="Enter your username"
+            className="outline-none border-b border-zinc-300 px-2 py-1 mb-3"
           />
           <ErrorMessage
             name="username"
@@ -51,13 +61,16 @@ const Signup = (): JSX.Element => {
             className="text-red-500"
           />
         </div>
-        <div>
-          <label htmlFor="fullName">Full Name</label>
+        <div className="flex flex-col w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw]">
+          <label htmlFor="fullName" className="text-zinc-600 mb-2 text-xl">
+            Enter your Full Name
+          </label>
           <Field
             type="text"
             id="fullName"
             name="fullName"
-            placeholder="Enter your Full Name"
+            placeholder="Enter your full Name"
+            className="outline-none mb-3 border-b border-zinc-300 px-2 py-1"
           />
           <ErrorMessage
             name="fullName"
@@ -65,23 +78,29 @@ const Signup = (): JSX.Element => {
             className="text-red-500"
           />
         </div>
-        <div>
-          <label htmlFor="email">Email</label>
+        <div className="flex flex-col w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw]">
+          <label htmlFor="email" className="text-zinc-600 mb-2 text-xl">
+            Enter your Email
+          </label>
           <Field
             type="email"
             id="email"
             name="email"
             placeholder="Enter your email"
+            className="outline-none  border-b border-zinc-300 px-2 py-1 mb-3"
           />
           <ErrorMessage name="email" component="div" className="text-red-500" />
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        <div className="flex flex-col w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw]">
+          <label htmlFor="password" className="text-zinc-600 mb-2 text-xl">
+            Enter your Password
+          </label>
           <Field
             type="password"
             id="password"
             name="password"
             placeholder="Enter your password"
+            className="outline-none  border-b border-zinc-300 px-2 py-1"
           />
           <ErrorMessage
             name="password"
@@ -89,7 +108,12 @@ const Signup = (): JSX.Element => {
             className="text-red-500"
           />
         </div>
-        <button type="submit">Signup</button>
+        <button
+          type="submit"
+          className="bg-black text-white w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw] mt-5 rounded-lg text-lg hover:opacity-80 transition-all ease-linear duration-300"
+        >
+          Signup
+        </button>
       </Form>
     </Formik>
   );
