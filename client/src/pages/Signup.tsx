@@ -1,7 +1,7 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 
 const Signup = (): JSX.Element => {
-    
   const validationSchema = Yup.object({
     username: Yup.string()
       .matches(
@@ -24,24 +24,74 @@ const Signup = (): JSX.Element => {
   });
 
   return (
-    <form>
-      <div>
-        <label htmlFor="">username</label>
-        <input type="text" placeholder="username" />
-      </div>
-      <div>
-        <label htmlFor="">Full Name</label>
-        <input type="text" placeholder="Enter your full name" />
-      </div>
-      <div>
-        <label htmlFor="">Email</label>
-        <input type="text" placeholder="Enter your email" />
-      </div>
-      <div>
-        <label htmlFor="">Password</label>
-        <input type="text" placeholder="Enter a password" />
-      </div>
-    </form>
+    <Formik
+      initialValues={{
+        username: "",
+        fullName: "",
+        email: "",
+        password: "",
+      }}
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    >
+      <Form>
+        <div>
+          <label htmlFor="username">Username</label>
+          <Field
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+          />
+          <ErrorMessage
+            name="username"
+            component="div"
+            className="text-red-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="fullName">Full Name</label>
+          <Field
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter your Full Name"
+          />
+          <ErrorMessage
+            name="fullName"
+            component="div"
+            className="text-red-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <Field
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+          />
+          <ErrorMessage name="email" component="div" className="text-red-500" />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <Field
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+          />
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="text-red-500"
+          />
+        </div>
+        <button type="submit">Signup</button>
+      </Form>
+    </Formik>
   );
 };
 
