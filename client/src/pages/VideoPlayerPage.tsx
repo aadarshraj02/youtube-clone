@@ -26,7 +26,9 @@ const VideoPlayerPage = (): JSX.Element => {
       </div>
       <div className="flex">
         <VideoPlayer />
-        <RecommendedVideo />
+        <div>
+          <RecommendedVideo />
+        </div>
       </div>
     </div>
   );
