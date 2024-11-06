@@ -12,25 +12,25 @@ const Sidebar = ({
   const menuItems = [
     {
       name: "Home",
-      icon: <MdHome size={24} />,
+      icon: <MdHome size={22} />,
     },
     {
       name: "Subscriptions",
-      icon: <MdSubscriptions size={24} />,
+      icon: <MdSubscriptions size={22} />,
     },
     {
       name: "History",
-      icon: <FaHistory size={24} />,
+      icon: <FaHistory size={22} />,
     },
     {
       name: "Playlist",
-      icon: <MdPlaylistPlay size={24} />,
+      icon: <MdPlaylistPlay size={22} />,
     },
   ];
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-64 bg-white z-10 transition-transform duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 h-full w-64 bg-white shadow-md rounded z-10 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -46,7 +46,7 @@ const Sidebar = ({
         {menuItems.map((item, index) => (
           <div key={index} className="flex items-center gap-4">
             {item.icon}
-            <span className="text-lg font-medium">{item.name}</span>
+            <h3>{item.name}</h3>
           </div>
         ))}
       </div>
