@@ -8,10 +8,11 @@ const VideoPlayerPage = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen((prev : any) => !prev);
+    setIsSidebarOpen((prev: any) => !prev);
   };
-  return <div>
-    <div className="max-w-full overflow-hidden">
+  return (
+    <div>
+      <div className="max-w-full overflow-hidden">
         <Navbar onToggleSidebar={toggleSidebar} />
         <div className="flex">
           <div
@@ -23,9 +24,12 @@ const VideoPlayerPage = (): JSX.Element => {
           </div>
         </div>
       </div>
-    <VideoPlayer />
-    <RecommendedVideo/>
-  </div>;
+      <div className="flex">
+        <VideoPlayer />
+        <RecommendedVideo />
+      </div>
+    </div>
+  );
 };
 
 export default VideoPlayerPage;
