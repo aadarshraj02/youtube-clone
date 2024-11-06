@@ -1,13 +1,15 @@
-import Home from "./pages/Home"
-import VideoPlayerPage from "./pages/VideoPlayerPage"
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import VideoPlayerPage from "./pages/VideoPlayerPage";
 
-const App = ():JSX.Element => {
+const App = (): JSX.Element => {
   return (
     <div>
       {/* <Home/> */}
-      <VideoPlayerPage />
+      {/* <VideoPlayerPage /> */}
+      <Signup />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
