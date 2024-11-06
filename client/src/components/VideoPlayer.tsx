@@ -1,7 +1,5 @@
-const VideoPlayer = () => {
-  return (
-    <div>VideoPlayer</div>
-  )
-}
+const VideoPlayer = (): JSX.Element => {
+  return <div>VideoPlayer</div>;
+};
 
-export default VideoPlayer
+export default VideoPlayer;
