@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from "./config/dbConnect.js";
 import authRoutes from "./routes/authRoutes.js";
 import videoRoutes from "./routes/videoRoutes.js";
@@ -9,6 +10,13 @@ import commentRoutes from "./routes/commentRoutes.js";
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    Credentials: true,
+  })
+);
 
 connectDB();
 
