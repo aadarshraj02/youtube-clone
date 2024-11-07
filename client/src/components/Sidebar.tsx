@@ -1,6 +1,7 @@
 import { MdHome, MdSubscriptions, MdPlaylistPlay } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({
   isOpen,
@@ -40,14 +41,16 @@ const Sidebar = ({
           className="cursor-pointer"
           size={24}
         />
-        <img src="./youtubelogo.jpg" alt="YouTube Logo" className="h-10" />
+        <Link to="/">
+          <img src="./youtubelogo.jpg" alt="YouTube Logo" className="h-10" />
+        </Link>
       </div>
       <div className="flex flex-col p-4 space-y-4">
         {menuItems.map((item, index) => (
-          <div key={index} className="flex items-center gap-4">
+          <Link to="/" key={index} className="flex items-center gap-4">
             {item.icon}
             <h3>{item.name}</h3>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

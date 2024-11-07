@@ -3,6 +3,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
 import { useState } from "react";
 import ProfileSidenav from "./ProfileSidenav";
+import { Link } from "react-router-dom";
 
 const Navbar = ({
   onToggleSidebar,
@@ -23,11 +24,13 @@ const Navbar = ({
           className="cursor-pointer"
           size={24}
         />
-        <img
-          src="./youtubelogo.jpg"
-          alt="YouTube Logo"
-          className="md:h-14 h-10"
-        />
+        <Link to="/">
+          <img
+            src="./youtubelogo.jpg"
+            alt="YouTube Logo"
+            className="md:h-14 h-10"
+          />
+        </Link>
       </div>
       <div className="flex items-center gap-2">
         <input
@@ -47,8 +50,6 @@ const Navbar = ({
         isOpen={isProfileSidenavOpen}
         toggleSidebar={toggleProfileSidenav}
       />
-
-   
     </nav>
   );
 };

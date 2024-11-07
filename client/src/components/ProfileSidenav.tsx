@@ -3,6 +3,7 @@ import { CiLogin, CiLogout } from "react-icons/ci";
 import { IoCreateOutline } from "react-icons/io5";
 import { FcAbout } from "react-icons/fc";
 import { GrContact } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 interface ProfileSidenavProps {
   isOpen: boolean;
@@ -23,20 +24,22 @@ const ProfileSidenav = ({
         <button onClick={toggleSidebar}>
           <IoMdClose />
         </button>
-        <img src="./youtubelogo.jpg" alt="youtube logo" className="h-10" />
+        <Link to="/">
+          <img src="./youtubelogo.jpg" alt="youtube logo" className="h-10" />
+        </Link>
       </div>
       <div className="flex flex-col p-4 space-y-4">
         <h2 className="text-lg font-semibold">Profile Options</h2>
         <ul className="list-none">
           <li className="mb-2">
-            <button className="flex gap-2 items-center">
+            <Link to="/login" className="flex gap-2 items-center">
               <CiLogin size={24} /> Login
-            </button>
+            </Link>
           </li>
           <li className="mb-2">
-            <button className="flex items-center gap-2">
+            <Link to="/signup" className="flex items-center gap-2">
               <IoCreateOutline size={24} /> Signup
-            </button>
+            </Link>
           </li>
           <li className="mb-2">
             <button className="flex items-center gap-2">
