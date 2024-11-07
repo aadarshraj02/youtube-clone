@@ -1,7 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { login } from "../redux/slices/authSlice";
+import { AppDispatch } from "../redux/store";
+import { useDispatch } from "react-redux";
 
 const Login = (): JSX.Element => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email format")
@@ -16,6 +21,10 @@ const Login = (): JSX.Element => {
       .required("Password is required"),
   });
 
+  const handleSubmit = (values: { email: string; password: string }) => {
+    dispatch(login(values));
+  };
+
   return (
     <Formik
       initialValues={{
@@ -23,9 +32,7 @@ const Login = (): JSX.Element => {
         password: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={handleSubmit}
     >
       <Form className=" h-[85vh] w-full flex flex-col items-center justify-center px-10">
         <h2 className="text-zinc-700 uppercase text-2xl font-semibold mb-2">

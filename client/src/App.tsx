@@ -8,8 +8,8 @@ const App = (): JSX.Element => {
     <div>
       {/* <Home/> */}
       {/* <VideoPlayerPage /> */}
-      <Signup />
-      {/* <Login /> */}
+      {/* <Signup /> */}
+      <Login />
     </div>
   );
 };
