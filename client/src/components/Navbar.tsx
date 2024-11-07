@@ -15,7 +15,11 @@ const Navbar = ({
           className="cursor-pointer"
           size={24}
         />
-        <img src="./youtubelogo.jpg" alt="YouTube Logo" className="md:h-14 h-10" />
+        <img
+          src="./youtubelogo.jpg"
+          alt="YouTube Logo"
+          className="md:h-14 h-10"
+        />
       </div>
       <div className="flex items-center gap-2">
         <input
@@ -25,7 +29,9 @@ const Navbar = ({
         />
         <IoSearchOutline className="text-gray-500" size={20} />
       </div>
-      <button className="text-sm font-semibold flex items-center gap-1 border px-2 py-1 rounded-full "><CgProfile size={18} /> Profile</button>
+      <button className="text-sm font-semibold flex items-center gap-1 border px-2 py-1 rounded-full ">
+        <CgProfile size={18} /> Profile
+      </button>
     </nav>
   );
 };
