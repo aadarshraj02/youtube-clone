@@ -20,14 +20,43 @@ const initialState: AuthState = {
 export const signup = createAsyncThunk(
   "auth/signup",
   async (
-    userData: { username: string; fullName: string; email: string; password: string },
+    userData: {
+      username: string;
+      fullName: string;
+      email: string;
+      password: string;
+    },
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", userData);
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        userData
+      );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data.message || "Signup failed");
+    }
+  }
+);
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async (
+    userData: {
+      email: string;
+      password: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        userData
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data.message || "Login failed");
     }
   }
 );
@@ -76,5 +105,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } =
+  authSlice.actions;
 export default authSlice.reducer;
