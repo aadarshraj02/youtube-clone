@@ -1,14 +1,22 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
+import { useState } from "react";
+import ProfileSidenav from "./ProfileSidenav";
 
 const Navbar = ({
   onToggleSidebar,
 }: {
   onToggleSidebar: () => void;
 }): JSX.Element => {
+  const [isProfileSidenavOpen, setIsProfileSidenavOpen] = useState(false);
+
+  const toggleProfileSidenav = () => {
+    setIsProfileSidenavOpen((prev) => !prev);
+  };
+
   return (
-    <nav className="flex justify-between items-center px-4 py-2">
+    <nav className="flex justify-between items-center px-4 py-2 relative">
       <div className="flex items-center gap-2">
         <RxHamburgerMenu
           onClick={onToggleSidebar}
@@ -29,9 +37,18 @@ const Navbar = ({
         />
         <IoSearchOutline className="text-gray-500" size={20} />
       </div>
-      <button className="text-sm font-semibold flex items-center gap-1 border px-2 py-1 rounded-full ">
+      <button
+        onClick={toggleProfileSidenav}
+        className="text-sm font-semibold flex items-center gap-1 border px-2 py-1 rounded-full "
+      >
         <CgProfile size={18} /> Profile
       </button>
+      <ProfileSidenav
+        isOpen={isProfileSidenavOpen}
+        toggleSidebar={toggleProfileSidenav}
+      />
+
+   
     </nav>
   );
 };
