@@ -3,9 +3,11 @@ import * as Yup from "yup";
 import { login } from "../redux/slices/authSlice";
 import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 const Login = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -23,6 +25,7 @@ const Login = (): JSX.Element => {
 
   const handleSubmit = (values: { email: string; password: string }) => {
     dispatch(login(values));
+    navigate("/")
   };
 
   return (
