@@ -1,4 +1,8 @@
 import { IoMdClose } from "react-icons/io";
+import { CiLogin, CiLogout } from "react-icons/ci";
+import { IoCreateOutline } from "react-icons/io5";
+import { FcAbout } from "react-icons/fc";
+import { GrContact } from "react-icons/gr";
 
 interface ProfileSidenavProps {
   isOpen: boolean;
@@ -24,14 +28,25 @@ const ProfileSidenav = ({
       <div className="flex flex-col p-4 space-y-4">
         <h2 className="text-lg font-semibold">Profile Options</h2>
         <ul className="list-none">
-          <li>
-            <button>Login</button>
+          <li className="mb-2">
+            <button className="flex gap-2 items-center">
+              <CiLogin size={24} /> Login
+            </button>
           </li>
-          <li>
-            <button>Signup</button>
+          <li className="mb-2">
+            <button className="flex items-center gap-2">
+              <IoCreateOutline size={24} /> Signup
+            </button>
           </li>
-          <li>
-            <button>profile</button>
+          <li className="mb-2">
+            <button className="flex items-center gap-2">
+              <FcAbout /> About Us
+            </button>
+          </li>
+          <li className="mb-2">
+            <button className="flex items-center gap-2">
+              <GrContact /> Contact Us
+            </button>
           </li>
         </ul>
       </div>
