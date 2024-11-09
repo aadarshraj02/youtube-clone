@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { logout } from "../redux/slices/authSlice";
 
-
 interface ProfileSidenavProps {
   isOpen: boolean;
   toggleSidebar: () => void;
@@ -20,14 +19,16 @@ const ProfileSidenav = ({
   isOpen,
   toggleSidebar,
 }: ProfileSidenavProps): JSX.Element => {
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
-    toggleSidebar(); 
-    navigate("/"); 
+    toggleSidebar();
+    navigate("/");
   };
 
   return (
@@ -52,24 +53,35 @@ const ProfileSidenav = ({
               alt="User Avatar"
               className="w-16 h-16 rounded-full self-center"
             />
-            <h2 className="text-lg font-semibold text-center">{user.username}</h2>
+            <h2 className="text-lg font-semibold text-center">
+              {user.username}
+            </h2>
             <ul className="list-none">
               <li className="mb-2">
                 <Link to="/profile" className="flex gap-2 items-center">
-                 <CgProfile/> User Profile
+                  <CgProfile /> User Profile
                 </Link>
               </li>
               <li className="mb-2">
-                <button className="flex items-center gap-2"><BiSolidVideoPlus/> Create Channel</button>
+                <Link to="/create-channel" className="flex items-center gap-2">
+                  <BiSolidVideoPlus /> Create Channel
+                </Link>
               </li>
               <li className="mb-2">
-                <button className="flex items-center gap-2"><FcAbout/> About Us</button>
+                <button className="flex items-center gap-2">
+                  <FcAbout /> About Us
+                </button>
               </li>
               <li className="mb-2">
-                <button className="flex items-center gap-2"><GrContact/> Contact Us</button>
+                <button className="flex items-center gap-2">
+                  <GrContact /> Contact Us
+                </button>
               </li>
               <li className="mb-2">
-                <button className="flex items-center gap-2" onClick={handleLogout}>
+                <button
+                  className="flex items-center gap-2"
+                  onClick={handleLogout}
+                >
                   <CiLogout size={24} /> Logout
                 </button>
               </li>
@@ -88,10 +100,14 @@ const ProfileSidenav = ({
               </Link>
             </li>
             <li className="mb-2">
-              <button className="flex items-center gap-2"><FcAbout/> About Us</button>
+              <button className="flex items-center gap-2">
+                <FcAbout /> About Us
+              </button>
             </li>
             <li className="mb-2">
-              <button className="flex items-center gap-2"><GrContact/> Contact Us</button>
+              <button className="flex items-center gap-2">
+                <GrContact /> Contact Us
+              </button>
             </li>
           </ul>
         )}

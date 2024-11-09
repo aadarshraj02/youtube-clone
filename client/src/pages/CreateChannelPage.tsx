@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { AppDispatch, RootState } from "../redux/store";
 import { createChannel } from "../redux/slices/channelSlices";
+import { useEffect } from "react";
 
 const CreateChannelPage = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,9 +12,11 @@ const CreateChannelPage = (): JSX.Element => {
   
   const { user } = useSelector((state: RootState) => state.auth);
 
-  if (!user) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const initialValues = {
     channelName: "",
@@ -28,10 +31,14 @@ const CreateChannelPage = (): JSX.Element => {
   const handleSubmit = async (values: typeof initialValues) => {
     const resultAction = await dispatch(createChannel(values));
     if (createChannel.fulfilled.match(resultAction)) {
-      navigate(`/channel/${resultAction.payload.id}`);
-    } else if (createChannel.rejected.match(resultAction)) {
-      console.log("Failed to create channel", resultAction.payload);
-    }
+        if (resultAction.payload && resultAction.payload.id) {
+          navigate(`/channel/${resultAction.payload.id}`);
+        } else {
+          console.log("Channel creation failed");
+        }
+      } else if (createChannel.rejected.match(resultAction)) {
+        console.log("Failed to create channel", resultAction.payload);
+      }
   };
 
   return (

@@ -28,7 +28,13 @@ export const createChannel = async (req, res) => {
       });
     }
 
-    res.status(201).json(savedChannel);
+    res.status(201).json({
+      id: savedChannel._id,
+      channelName: savedChannel.channelName,
+      description: savedChannel.description,
+      subscribers: savedChannel.subscribers,
+      owner: savedChannel.owner,
+    });
   } catch (error) {
     console.error("Error creating channel:", error);
     return res.status(500).json({
