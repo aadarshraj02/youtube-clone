@@ -1,11 +1,15 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { AppDispatch, RootState } from "../redux/store";
+import { createChannel } from "../redux/slices/channelSlices";
 
 const CreateChannelPage = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+//   const { status, error } = useSelector((state: RootState) => state.channel);
 
   const initialValues = {
     channelName: "",
@@ -17,14 +21,21 @@ const CreateChannelPage = (): JSX.Element => {
     description: Yup.string().max(200, "Description is too long"),
   });
 
+  const handleSubmit = async (values: typeof initialValues) => {
+    const resultAction = await dispatch(createChannel(values));
+    if (createChannel.fulfilled.match(resultAction)) {
+      navigate("/channel");
+    } else if (createChannel.rejected.match(resultAction)) {
+      console.log("Failed to create channel", resultAction.payload);
+    }
+  };
+
   return (
     <div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
+        onSubmit={handleSubmit}
       >
         <Form className=" h-[85vh] w-full flex flex-col items-center justify-center px-10">
           <h2 className="text-zinc-700 uppercase text-2xl font-semibold mb-2">
