@@ -7,6 +7,7 @@ interface AuthState {
     email: string;
     id: string;
     avatar: string;
+    channels: string[];
   };
   token: null | string;
   isAuthenticated: boolean;
@@ -65,7 +66,7 @@ export const login = createAsyncThunk(
         userData
       );
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       return response.data;
     } catch (error: any) {
