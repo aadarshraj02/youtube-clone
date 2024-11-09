@@ -35,6 +35,7 @@ const Signup = (): JSX.Element => {
     fullName: string;
     email: string;
     password: string;
+    avatar:string
   }) => {
     dispatch(signup(values));
     navigate("/login")
@@ -47,6 +48,7 @@ const Signup = (): JSX.Element => {
         fullName: "",
         email: "",
         password: "",
+        avatar: ""
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}

@@ -2,7 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface AuthState {
-  user: null | { username: string; email: string; id: string };
+  user: null | {
+    username: string;
+    email: string;
+    id: string;
+    avatar: string;
+  };
   token: null | string;
   isAuthenticated: boolean;
   error: string | null;
@@ -27,7 +32,13 @@ if (storedUser && storedToken) {
 export const signup = createAsyncThunk(
   "auth/signup",
   async (
-    userData: { username: string; fullName: string; email: string; password: string },
+    userData: {
+      username: string;
+      fullName: string;
+      email: string;
+      password: string;
+      avatar: string; 
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -54,8 +65,8 @@ export const login = createAsyncThunk(
         userData
       );
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data)); 
-      
+      localStorage.setItem("user", JSON.stringify(response.data));
+
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data.message || "Login failed");
@@ -84,7 +95,6 @@ const authSlice = createSlice({
       .addCase(signup.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
-        state.isAuthenticated = true;
       })
       .addCase(signup.rejected, (state, action) => {
         state.error = action.payload as string;
@@ -93,7 +103,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload.user; 
         state.token = action.payload.token;
         state.isAuthenticated = true;
       })

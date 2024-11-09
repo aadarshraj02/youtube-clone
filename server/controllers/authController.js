@@ -6,6 +6,8 @@ export const registeredUser = async (req, res) => {
   const { fullName, username, email, password } = req.body;
 
   try {
+    const avatarUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${username}`;
+
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({
@@ -18,11 +20,18 @@ export const registeredUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      avatar: avatarUrl,
     });
 
     await newUser.save();
     res.status(210).json({
       message: "User Registered successfully",
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        avatar: newUser.avatar,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -50,7 +59,6 @@ export const loginUser = async (req, res) => {
     if (!user.username) {
       return res.status(400).json({ message: "Username is missing." });
     }
-
     const token = jwt.sign(
       { id: user._id, username: user.username },
       process.env.JWT_SECRET,
@@ -58,10 +66,15 @@ export const loginUser = async (req, res) => {
         expiresIn: "1h",
       }
     );
+
     res.json({
       token,
-      userId: user._id,
-      username: user.username,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        avatar: user.avatar,
+      },
     });
   } catch (error) {
     res.status(500).json({

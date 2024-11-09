@@ -1,9 +1,12 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileSidenav from "./ProfileSidenav";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store"; 
+import { useLocation } from "react-router-dom";
 
 const Navbar = ({
   onToggleSidebar,
@@ -11,13 +14,20 @@ const Navbar = ({
   onToggleSidebar: () => void;
 }): JSX.Element => {
   const [isProfileSidenavOpen, setIsProfileSidenavOpen] = useState(false);
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsProfileSidenavOpen(false); 
+  }, [location]);
 
   const toggleProfileSidenav = () => {
     setIsProfileSidenavOpen((prev) => !prev);
   };
 
   return (
-    <nav className="flex justify-between items-center px-4 py-2 relative">
+    <nav className="flex justify-between items-center px-4 py-2 relative ">
       <div className="flex items-center gap-2">
         <RxHamburgerMenu
           onClick={onToggleSidebar}
@@ -42,9 +52,19 @@ const Navbar = ({
       </div>
       <button
         onClick={toggleProfileSidenav}
-        className="text-sm font-semibold flex items-center gap-1 border px-2 py-1 rounded-full "
+        className="text-sm font-semibold flex items-center gap-1 border px-2 py-1 rounded-full"
       >
-        <CgProfile size={18} /> Profile
+        {isAuthenticated && user?.avatar ? (
+          <img
+            src={user.avatar} 
+            alt="User Avatar"
+            className="w-8 h-8 rounded-full"
+          />
+        ) : (
+          <>
+            <CgProfile size={18} /> Profile
+          </>
+        )}
       </button>
       <ProfileSidenav
         isOpen={isProfileSidenavOpen}
