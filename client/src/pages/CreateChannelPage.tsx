@@ -8,8 +8,12 @@ import { createChannel } from "../redux/slices/channelSlices";
 const CreateChannelPage = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  
+  const { user } = useSelector((state: RootState) => state.auth);
 
-//   const { status, error } = useSelector((state: RootState) => state.channel);
+  if (!user) {
+    navigate("/login");
+  }
 
   const initialValues = {
     channelName: "",
@@ -24,7 +28,7 @@ const CreateChannelPage = (): JSX.Element => {
   const handleSubmit = async (values: typeof initialValues) => {
     const resultAction = await dispatch(createChannel(values));
     if (createChannel.fulfilled.match(resultAction)) {
-      navigate("/channel");
+      navigate(`/channel/${resultAction.payload.id}`);
     } else if (createChannel.rejected.match(resultAction)) {
       console.log("Failed to create channel", resultAction.payload);
     }
