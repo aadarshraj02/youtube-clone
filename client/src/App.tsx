@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -8,9 +8,16 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import CreateChannelPage from "./pages/CreateChannelPage";
 import ChannelPage from "./pages/ChannelPage";
+import { useDispatch } from "react-redux";
+import { restoreAuthState } from "./redux/slices/authSlice";
 
 const App = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(restoreAuthState());
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
