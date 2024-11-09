@@ -4,6 +4,7 @@ import { IoCreateOutline } from "react-icons/io5";
 import { FcAbout } from "react-icons/fc";
 import { GrContact } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
+import { GrChannel } from "react-icons/gr";
 import { BiSolidVideoPlus } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,6 +23,7 @@ const ProfileSidenav = ({
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
+  const { userChannel } = useSelector((state: RootState) => state.channel);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -62,11 +64,17 @@ const ProfileSidenav = ({
                   <CgProfile /> User Profile
                 </Link>
               </li>
-              <li className="mb-2">
-                <Link to="/create-channel" className="flex items-center gap-2">
-                  <BiSolidVideoPlus /> Create Channel
-                </Link>
-              </li>
+              {userChannel ? (
+                <li className="mb-2">
+                  <Link to={`/channel/${userChannel.id}`} className="flex items-center gap-2">
+                    <GrChannel /> My Channel
+                  </Link>
+                </li>
+              ) : (
+                <li className="mb-2">
+                  <Link to="/create-channel" className="flex items-center gap-2"><BiSolidVideoPlus/> Create Channel</Link>
+                </li>
+              )}
               <li className="mb-2">
                 <button className="flex items-center gap-2">
                   <FcAbout /> About Us

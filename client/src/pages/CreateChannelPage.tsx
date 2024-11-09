@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { AppDispatch, RootState } from "../redux/store";
-import { createChannel } from "../redux/slices/channelSlices";
+import { createChannel, setUserChannel } from "../redux/slices/channelSlices";
 import { useEffect } from "react";
 
 const CreateChannelPage = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  
+
   const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
@@ -31,14 +31,15 @@ const CreateChannelPage = (): JSX.Element => {
   const handleSubmit = async (values: typeof initialValues) => {
     const resultAction = await dispatch(createChannel(values));
     if (createChannel.fulfilled.match(resultAction)) {
-        if (resultAction.payload && resultAction.payload.id) {
-          navigate(`/channel/${resultAction.payload.id}`);
-        } else {
-          console.log("Channel creation failed");
-        }
-      } else if (createChannel.rejected.match(resultAction)) {
-        console.log("Failed to create channel", resultAction.payload);
+      if (resultAction.payload && resultAction.payload.id) {
+        dispatch(setUserChannel(resultAction.payload));
+        navigate(`/channel/${resultAction.payload.id}`);
+      } else {
+        console.log("Channel creation failed");
       }
+    } else if (createChannel.rejected.match(resultAction)) {
+      console.log("Failed to create channel", resultAction.payload);
+    }
   };
 
   return (

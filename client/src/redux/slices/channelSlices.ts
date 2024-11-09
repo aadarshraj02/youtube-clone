@@ -32,20 +32,30 @@ export const createChannel = createAsyncThunk(
 const initialState = {
   status: "idle",
   error: null as string | null,
+  userChannel: null as {
+    id: string;
+    channelName: string;
+    description: string;
+  } | null,
 };
 
 const channelSlice = createSlice({
   name: "channel",
   initialState,
-  reducers: {},
+  reducers: {
+    setUserChannel: (state, action) => {
+      state.userChannel = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createChannel.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(createChannel.fulfilled, (state) => {
+      .addCase(createChannel.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.userChannel = action.payload;
       })
       .addCase(createChannel.rejected, (state, action) => {
         state.status = "failed";
@@ -53,5 +63,7 @@ const channelSlice = createSlice({
       });
   },
 });
+
+export const { setUserChannel } = channelSlice.actions;
 
 export default channelSlice.reducer;
