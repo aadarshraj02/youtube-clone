@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const createChannel = createAsyncThunk(
   "channel/createChannel",
@@ -28,3 +28,30 @@ export const createChannel = createAsyncThunk(
     }
   }
 );
+
+const initialState = {
+  status: "idle",
+  error: null as string | null,
+};
+
+const channelSlice = createSlice({
+  name: "channel",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createChannel.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(createChannel.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(createChannel.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as string;
+      });
+  },
+});
+
+export default channelSlice.reducer;
