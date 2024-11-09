@@ -6,6 +6,7 @@ import VideoPlayerPage from "./pages/VideoPlayerPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import CreateChannelPage from "./pages/CreateChannelPage";
 
 const App = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -33,6 +34,7 @@ const App = (): JSX.Element => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/video/:id" element={<VideoPlayerPage />} />
+          <Route path="/create-channel" element={<CreateChannelPage />} />
         </Routes>
       </BrowserRouter>
     </>
