@@ -8,6 +8,11 @@ interface Channel {
   avatar: string;
   subscribers: number;
   videos: Array<any>;
+  owner?: ChannelOwner;
+}
+
+interface ChannelOwner {
+  avatar: string;
 }
 
 interface ChannelState {
