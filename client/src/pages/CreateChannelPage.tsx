@@ -14,9 +14,7 @@ const CreateChannelPage = (): JSX.Element => {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    }
-    if (userChannel) {
-      console.log("Navigating to newly created channel:", userChannel.id);
+    } else if (userChannel?.id) {
       navigate(`/channel/${userChannel.id}`);
     }
   }, [user, userChannel, navigate]);
@@ -32,7 +30,14 @@ const CreateChannelPage = (): JSX.Element => {
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
-    await createChannel(values);
+    try {
+      const createdChannel = await createChannel(values);
+      if (createdChannel?.id) {
+        navigate(`/channel/${createdChannel.id}`);
+      }
+    } catch (error) {
+      console.error("Error creating channel:", error);
+    }
   };
 
   return (

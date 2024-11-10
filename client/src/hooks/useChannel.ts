@@ -30,10 +30,12 @@ export const useChannel = () => {
         }
       );
       dispatch(setUserChannel(response.data));
+      return response.data;
     } catch (error: any) {
       dispatch(
         setError(error.response.data.message || "Failed to create channel")
       );
+      throw error;
     }
   };
 

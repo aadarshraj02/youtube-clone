@@ -55,7 +55,6 @@ export const getChannel = async (req, res) => {
     if (!channel) {
       return res.status(404).json({ message: "Channel not found" });
     }
-    console.log("Fetched channel:", channel);
     const formattedChannel = {
       ...channel.toObject(),
       subscribers: formatCount(channel.subscribers),
