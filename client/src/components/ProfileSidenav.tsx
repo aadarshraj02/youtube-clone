@@ -23,7 +23,11 @@ const ProfileSidenav = ({
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
-  const { userChannel } = useSelector((state: RootState) => state.channel);
+
+  const userChannel = useSelector(
+    (state: RootState) => state.channel.userChannel
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -66,13 +70,21 @@ const ProfileSidenav = ({
               </li>
               {userChannel ? (
                 <li className="mb-2">
-                  <Link to={`/channel/${userChannel.id}`} className="flex items-center gap-2">
+                  <Link
+                    to={`/channel/${userChannel.id}`}
+                    className="flex items-center gap-2"
+                  >
                     <GrChannel /> My Channel
                   </Link>
                 </li>
               ) : (
                 <li className="mb-2">
-                  <Link to="/create-channel" className="flex items-center gap-2"><BiSolidVideoPlus/> Create Channel</Link>
+                  <Link
+                    to="/create-channel"
+                    className="flex items-center gap-2"
+                  >
+                    <BiSolidVideoPlus /> Create Channel
+                  </Link>
                 </li>
               )}
               <li className="mb-2">

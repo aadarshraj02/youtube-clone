@@ -8,8 +8,10 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import CreateChannelPage from "./pages/CreateChannelPage";
 import ChannelPage from "./pages/ChannelPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { restoreAuthState } from "./redux/slices/authSlice";
+import { useChannel } from "./hooks/useChannel";
+import { RootState } from "./redux/store";
 
 const App = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,6 +20,15 @@ const App = (): JSX.Element => {
   useEffect(() => {
     dispatch(restoreAuthState());
   }, []);
+
+  const { fetchUserChannel } = useChannel();
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserChannel();
+    }
+  }, [user, fetchUserChannel]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);

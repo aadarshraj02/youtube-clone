@@ -55,15 +55,28 @@ export const getChannel = async (req, res) => {
     if (!channel) {
       return res.status(404).json({ message: "Channel not found" });
     }
+    console.log("Fetched channel:", channel);
     const formattedChannel = {
       ...channel.toObject(),
       subscribers: formatCount(channel.subscribers),
-      avatar: channel.owner.avatar
+      avatar: channel.owner.avatar,
     };
 
     res.json(formattedChannel);
   } catch (error) {
     return res.status(500).json({ message: "Error fetching channel", error });
+  }
+};
+
+export const getUserChannel = async (req, res) => {
+  try {
+    const userChannel = await Channel.findOne({ owner: req.user.id });
+    if (!userChannel) {
+      return res.status(404).json({ message: "Channel not found" });
+    }
+    res.json(userChannel);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching user channel", error });
   }
 };
 

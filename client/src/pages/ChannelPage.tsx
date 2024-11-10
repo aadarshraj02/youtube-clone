@@ -35,7 +35,7 @@ const ChannelPage: React.FC = () => {
                   {channel?.subscribers} subscribers
                 </p>
               </div>
-              <p className="sm:text-lg mt-3 ml-3 w-full sm:w-2/3 md:w-1/2 overflow-hidden">
+              <p className="sm:text-lg mt-3 ml-3 w-full overflow-hidden">
                 {channel?.description}
               </p>
               <button className="bg-black mt-4 ml-3 text-white px-4 py-2 rounded-md hover:opacity-70 transition-all duration-300 ease-linear">

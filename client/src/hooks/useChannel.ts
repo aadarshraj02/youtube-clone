@@ -47,6 +47,31 @@ export const useChannel = () => {
       setError(error.response.data.message || "Failed to get channel");
     }
   };
+  const fetchUserChannel = async () => {
+    if (!userChannel) {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/channels/user/channel",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        dispatch(setUserChannel(response.data));
+      } catch (error) {
+        console.error("Error fetching user's channel:", error);
+        dispatch(setUserChannel(null));
+      }
+    }
+  };
 
-  return { createChannel, fetchChannel, userChannel, channel, error };
+  return {
+    createChannel,
+    fetchChannel,
+    userChannel,
+    fetchUserChannel,
+    channel,
+    error,
+  };
 };

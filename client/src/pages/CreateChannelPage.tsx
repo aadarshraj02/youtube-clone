@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { RootState } from "../redux/store";
 import { useEffect } from "react";
-import { useChannel } from "../hooks/useChannel"; 
+import { useChannel } from "../hooks/useChannel";
 
 const CreateChannelPage = (): JSX.Element => {
-  const { createChannel, userChannel, error } = useChannel(); 
+  const { createChannel, userChannel, error } = useChannel();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
 
@@ -16,6 +16,7 @@ const CreateChannelPage = (): JSX.Element => {
       navigate("/login");
     }
     if (userChannel) {
+      console.log("Navigating to newly created channel:", userChannel.id);
       navigate(`/channel/${userChannel.id}`);
     }
   }, [user, userChannel, navigate]);
