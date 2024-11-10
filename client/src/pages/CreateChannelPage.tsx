@@ -1,22 +1,24 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { AppDispatch, RootState } from "../redux/store";
-import { createChannel, setUserChannel } from "../redux/slices/channelSlices";
+import { RootState } from "../redux/store";
 import { useEffect } from "react";
+import { useChannel } from "../hooks/useChannel"; 
 
 const CreateChannelPage = (): JSX.Element => {
-  const dispatch = useDispatch<AppDispatch>();
+  const { createChannel, userChannel, error } = useChannel(); 
   const navigate = useNavigate();
-
   const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-  }, [user, navigate]);
+    if (userChannel) {
+      navigate(`/channel/${userChannel.id}`);
+    }
+  }, [user, userChannel, navigate]);
 
   const initialValues = {
     channelName: "",
@@ -29,17 +31,7 @@ const CreateChannelPage = (): JSX.Element => {
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
-    const resultAction = await dispatch(createChannel(values));
-    if (createChannel.fulfilled.match(resultAction)) {
-      if (resultAction.payload && resultAction.payload.id) {
-        dispatch(setUserChannel(resultAction.payload));
-        navigate(`/channel/${resultAction.payload.id}`);
-      } else {
-        console.log("Channel creation failed");
-      }
-    } else if (createChannel.rejected.match(resultAction)) {
-      console.log("Failed to create channel", resultAction.payload);
-    }
+    await createChannel(values);
   };
 
   return (
@@ -54,8 +46,8 @@ const CreateChannelPage = (): JSX.Element => {
             Create Your Channel
           </h2>
           <p className="mb-5 text-sm text-zinc-400">
-            Enter all the required fields to Create your own channel and upload
-            Videos.
+            Enter all the required fields to create your own channel and upload
+            videos.
           </p>
           <div className="flex flex-col w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw]">
             <label htmlFor="channelName" className="text-zinc-600 mb-2 text-xl">
@@ -65,7 +57,7 @@ const CreateChannelPage = (): JSX.Element => {
               type="text"
               id="channelName"
               name="channelName"
-              placeholder="Enter your Channel name"
+              placeholder="Enter your channel name"
               className="outline-none border-b border-zinc-300 px-2 py-1 mb-3"
             />
             <ErrorMessage
@@ -95,8 +87,9 @@ const CreateChannelPage = (): JSX.Element => {
             type="submit"
             className="bg-black text-white w-[80vw] sm:w-[55vw] md:w-[45vw] lg:w-[35vw] mt-5 rounded-lg text-lg hover:opacity-80 transition-all ease-linear duration-300"
           >
-            create channel
+            Create Channel
           </button>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
         </Form>
       </Formik>
     </div>

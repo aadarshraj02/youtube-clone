@@ -1,25 +1,17 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchChannel } from "../redux/slices/channelSlices";
-import { RootState, AppDispatch } from "../redux/store";
 import { useParams } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
+import { useChannel } from "../hooks/useChannel";
 
 const ChannelPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const { id: channelId } = useParams<{ id: string }>();
-  const { channel, status, error } = useSelector(
-    (state: RootState) => state.channel
-  );
+  const { channel, fetchChannel } = useChannel();
 
   useEffect(() => {
     if (channelId) {
-      dispatch(fetchChannel(channelId));
+      fetchChannel(channelId);
     }
-  }, [dispatch, channelId]);
-
-  if (status === "loading") return <div>Loading...</div>;
-  if (status === "failed") return <div>Error: {error}</div>;
+  }, [channelId, fetchChannel]);
 
   return (
     <div className="px-8">
@@ -39,11 +31,13 @@ const ChannelPage: React.FC = () => {
                 <h2 className="text-xl ml-3 text-gray-500 lowercase">
                   @{channel?.channelName}
                 </h2>
-                <p className="text-sm ml-3  text-gray-600">
+                <p className="text-sm ml-3 text-gray-600">
                   {channel?.subscribers} subscribers
                 </p>
               </div>
-              <p className="sm:text-lg mt-3 ml-3 w-full sm:w-2/3 md:w-1/2 overflow-hidden">{channel?.description}</p>
+              <p className="sm:text-lg mt-3 ml-3 w-full sm:w-2/3 md:w-1/2 overflow-hidden">
+                {channel?.description}
+              </p>
               <button className="bg-black mt-4 ml-3 text-white px-4 py-2 rounded-md hover:opacity-70 transition-all duration-300 ease-linear">
                 Subscribe
               </button>
