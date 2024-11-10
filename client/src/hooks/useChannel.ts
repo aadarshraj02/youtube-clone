@@ -49,6 +49,7 @@ export const useChannel = () => {
       setError(error.response.data.message || "Failed to get channel");
     }
   };
+
   const fetchUserChannel = async () => {
     if (!userChannel) {
       try {
@@ -60,10 +61,20 @@ export const useChannel = () => {
             },
           }
         );
-        dispatch(setUserChannel(response.data));
-      } catch (error) {
-        console.error("Error fetching user's channel:", error);
-        dispatch(setUserChannel(null));
+        if (response.status === 200) {
+          dispatch(setUserChannel(response.data));
+        }
+      } catch (error: any) {
+        if (error.response?.status === 404) {
+          dispatch(setUserChannel(null));
+        } else {
+          console.error("Error fetching user's channel:", error);
+          dispatch(
+            setError(
+              error.response?.data?.message || "Failed to fetch user's channel"
+            )
+          );
+        }
       }
     }
   };

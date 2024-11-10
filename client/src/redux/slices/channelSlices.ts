@@ -36,11 +36,15 @@ const channelSlice = createSlice({
   reducers: {
     setUserChannel: (state, action) => {
       const channelData = action.payload;
-      state.userChannel = {
-        id: channelData._id,
-        channelName: channelData.channelName,
-        description: channelData.description,
-      };
+      if (channelData) {
+        state.userChannel = {
+          id: channelData._id,
+          channelName: channelData.channelName,
+          description: channelData.description,
+        };
+      } else {
+        state.userChannel = null;
+      }
     },
     setChannel: (state, action) => {
       state.channel = action.payload;
