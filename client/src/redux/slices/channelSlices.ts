@@ -12,6 +12,7 @@ interface Channel {
 
 interface ChannelOwner {
   avatar: string;
+  _id: string;
 }
 
 interface ChannelState {
