@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import { useChannel } from "../hooks/useChannel";
@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { FaRegBell } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
+import ChannelEditModal from "../components/ChannelEditModal";
 
 const ChannelPage: React.FC = () => {
   const { id: channelId } = useParams<{ id: string }>();
   const { channel, fetchChannel } = useChannel();
   const { user } = useSelector((state: RootState) => state.auth);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     if (channelId) {
@@ -19,8 +21,13 @@ const ChannelPage: React.FC = () => {
   }, [channelId, fetchChannel]);
 
   const handleEdit = () => {
-    console.log("edit clicked");
+    setIsEditModalOpen(true);
   };
+
+  const handleCloseModal = () => {
+    setIsEditModalOpen(false);
+  };
+
   const handleDelete = () => {
     console.log("Delete clicked");
   };
@@ -35,7 +42,7 @@ const ChannelPage: React.FC = () => {
             className="w-[20vw] h-[20vw] rounded-full"
           />
           <div className="flex flex-col">
-            <h1 className="text-2xl sm:text-3xl font-bold mt-4 ml-3 capitalize">
+            <h1 className="text-2xl sm:text-3xl font-bold mt-4 ml-3 capitalize text-center">
               {channel?.channelName}
             </h1>
             <div>
@@ -60,13 +67,13 @@ const ChannelPage: React.FC = () => {
               <div className="flex mt-4 ml-3 gap-4">
                 <button
                   onClick={handleEdit}
-                  className="bg-blue-500 px-2 py-1 text-white rounded-md  hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
+                  className="bg-blue-500 px-2 py-1 text-white rounded-md hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
                 >
                   <MdEdit /> Edit
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="bg-red-500 px-2 py-1 text-white rounded-md  hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
+                  className="bg-red-500 px-2 py-1 text-white rounded-md hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
                 >
                   <MdDelete /> Delete
                 </button>
@@ -81,6 +88,14 @@ const ChannelPage: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-5">
         <VideoCard />
       </div>
+      {isEditModalOpen && channelId && (
+        <ChannelEditModal
+          channelId={channelId as string}
+          currentName={channel?.channelName || ""}
+          currentDescription={channel?.description || ""}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };
