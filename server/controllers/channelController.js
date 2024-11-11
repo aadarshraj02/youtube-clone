@@ -81,18 +81,22 @@ export const getUserChannel = async (req, res) => {
 
 export const updateChannel = async (req, res) => {
   const { channelId } = req.params;
-  const { channelName, description, channelBanner } = req.body;
+  const { channelName, description } = req.body;
 
   try {
-    const updatedChannel = await Channel.findByIdAndUpdate(
-      channelId,
-      { channelName, description, channelBanner },
-      { new: true }
-    );
+    const channel = await Channel.findById(channelId);
 
-    if (!updatedChannel) {
+    if (!channel) {
       return res.status(404).json({ message: "Channel not found" });
     }
+    if (channel.owner.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to update this channel" });
+    }
+    channel.channelName = channelName;
+    channel.description = description;
+    const updatedChannel = await channel.save();
 
     res.json(updatedChannel);
   } catch (error) {
@@ -104,11 +108,17 @@ export const deleteChannel = async (req, res) => {
   const { channelId } = req.params;
 
   try {
-    const deletedChannel = await Channel.findByIdAndDelete(channelId);
+    const channel = await Channel.findById(channelId);
 
-    if (!deletedChannel) {
+    if (!channel) {
       return res.status(404).json({ message: "Channel not found" });
     }
+    if (channel.owner.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this channel" });
+    }
+    await channel.remove();
 
     res.json({ message: "Channel deleted successfully" });
   } catch (error) {
