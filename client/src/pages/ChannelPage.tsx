@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import { useChannel } from "../hooks/useChannel";
 import { useSelector } from "react-redux";
@@ -7,12 +7,15 @@ import { RootState } from "../redux/store";
 import { FaRegBell } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
 import ChannelEditModal from "../components/ChannelEditModal";
+import ChannelDeleteModal from "../components/ChannelDeleteModal";
 
-const ChannelPage: React.FC = () => {
+const ChannelPage = (): JSX.Element => {
   const { id: channelId } = useParams<{ id: string }>();
-  const { channel, fetchChannel } = useChannel();
+  const { channel, fetchChannel, deleteChannel } = useChannel();
   const { user } = useSelector((state: RootState) => state.auth);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (channelId) {
@@ -26,10 +29,22 @@ const ChannelPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsEditModalOpen(false);
+    setIsDeleteModalOpen(false);
   };
 
   const handleDelete = () => {
-    console.log("Delete clicked");
+    setIsDeleteModalOpen(true);
+  };
+  const handleConfirmDelete = async () => {
+    if (channelId) {
+      await deleteChannel(channelId);
+      setIsDeleteModalOpen(false);
+      navigate("/");
+    }
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -42,7 +57,7 @@ const ChannelPage: React.FC = () => {
             className="w-[20vw] h-[20vw] rounded-full"
           />
           <div className="flex flex-col">
-            <h1 className="text-2xl sm:text-3xl font-bold mt-4 ml-3 capitalize text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold mt-4 ml-3 capitalize text-center sm:text-left">
               {channel?.channelName}
             </h1>
             <div>
@@ -94,6 +109,12 @@ const ChannelPage: React.FC = () => {
           currentName={channel?.channelName || ""}
           currentDescription={channel?.description || ""}
           onClose={handleCloseModal}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <ChannelDeleteModal
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCloseDeleteModal}
         />
       )}
     </div>
