@@ -79,12 +79,49 @@ export const useChannel = () => {
     }
   };
 
+  const editChannel = async (channelId: string, updatedData: ChannelData) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/channels/${channelId}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      dispatch(setChannel(response.data));
+      return response.data;
+    } catch (error: any) {
+      dispatch(
+        setError(error.response?.data?.message || "Failed to update channel")
+      );
+    }
+  };
+
+  const deleteChannel = async (channelId: string) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/channels/${channelId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      dispatch(setUserChannel(null));
+    } catch (error: any) {
+      dispatch(
+        setError(error.response?.data?.message || "Failed to Delete channel")
+      );
+    }
+  };
+
   return {
     createChannel,
     fetchChannel,
     userChannel,
     fetchUserChannel,
     channel,
+    editChannel,
+    deleteChannel,
     error,
   };
 };
