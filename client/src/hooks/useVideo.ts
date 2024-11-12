@@ -5,6 +5,8 @@ import {
   setUploadProgress,
   setError,
   setVideos,
+  setEditing,
+  setDeleting,
 } from "../redux/slices/videoSlice";
 
 interface VideoData {
@@ -14,10 +16,15 @@ interface VideoData {
   category: string;
   videoFile: File;
 }
+interface VideoUpdateData {
+  title?: string;
+  description?: string;
+  thumbnailUrl?: string;
+}
 
 export const useVideo = () => {
   const dispatch = useDispatch();
-  const { uploadProgress, error, videos } = useSelector(
+  const { uploadProgress, error, videos, isDeleting, isEditing } = useSelector(
     (state: RootState) => state.video
   );
 
@@ -65,5 +72,50 @@ export const useVideo = () => {
     }
   };
 
-  return { uploadVideo, fetchVideos, videos, uploadProgress, error };
+  const editVideo = async (videoId: string, updateData: VideoUpdateData) => {
+    dispatch(setEditing(true));
+    dispatch(setError(null));
+    try {
+      await axios.put(
+        `http://localhost:5000/api/videos/${videoId}`,
+        updateData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    } catch (err: any) {
+      dispatch(setError(err.response?.data?.message || "Failed to edit video"));
+    } finally {
+      dispatch(setEditing(false));
+    }
+  };
+  const deleteVideo = async (videoId: string) => {
+    dispatch(setDeleting(true));
+    dispatch(setError(null));
+    try {
+      await axios.delete(`http://localhost:5000/api/videos/${videoId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+    } catch (err: any) {
+      dispatch(
+        setError(err.response?.data?.message || "Failed to delete video")
+      );
+    } finally {
+      dispatch(setDeleting(false));
+    }
+  };
+
+  return {
+    uploadVideo,
+    fetchVideos,
+    videos,
+    uploadProgress,
+    error,
+    editVideo,
+    deleteVideo,
+  };
 };
