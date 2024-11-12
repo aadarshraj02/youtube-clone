@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { restoreAuthState } from "./redux/slices/authSlice";
 import { useChannel } from "./hooks/useChannel";
 import { RootState } from "./redux/store";
+import VideoUpload from "./pages/VideoUpload";
 
 const App = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -55,6 +56,7 @@ const App = (): JSX.Element => {
           <Route path="/video/:id" element={<VideoPlayerPage />} />
           <Route path="/create-channel" element={<CreateChannelPage />} />
           <Route path="/channel/:id" element={<ChannelPage />} />
+          <Route path="/video-upload" element={<VideoUpload />} />
         </Routes>
       </BrowserRouter>
     </>
