@@ -1,8 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 interface VideoCardProps {
+  videoId: string;
   title: string;
   thumbnailUrl: string;
   views: number;
   category: string;
+  channelName?: string;
+  channelId?: string;
 }
 
 const formatCount = (count: number) => {
@@ -14,13 +19,28 @@ const formatCount = (count: number) => {
 };
 
 const VideoCard = ({
+  videoId,
   title,
   thumbnailUrl,
   views,
   category,
+  channelName,
+  channelId,
 }: VideoCardProps): JSX.Element => {
+  const navigate = useNavigate();
+
+  const handleVideoClick = () => navigate(`/video/${videoId}`);
+  const handleChannelClick = () => {
+    if (channelId) {
+      navigate(`/channel/${channelId}`);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 flex flex-col hover:shadow-lg transition-all duration-300 ease-linear cursor-pointer">
+    <div
+      className="bg-white rounded-lg shadow-md p-4 flex flex-col hover:shadow-lg transition-all duration-300 ease-linear cursor-pointer"
+      onClick={handleVideoClick}
+    >
       <img
         src={thumbnailUrl}
         alt={title}
@@ -29,6 +49,17 @@ const VideoCard = ({
       <h3 className="mt-2 font-semibold text-lg uppercase">{title}</h3>
       <p className="text-gray-600">{formatCount(views)} views</p>
       <p className="text-gray-500 text-sm">Category: {category}</p>
+      {channelName && (
+        <p
+          className=" hover:underline "
+          onClick={(e) => {
+            e.stopPropagation();
+            handleChannelClick();
+          }}
+        >
+          Uploaded by: @{channelName}
+        </p>
+      )}
     </div>
   );
 };

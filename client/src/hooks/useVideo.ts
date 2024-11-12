@@ -17,7 +17,7 @@ interface VideoData {
 
 export const useVideo = () => {
   const dispatch = useDispatch();
-  const { uploadProgress, error } = useSelector(
+  const { uploadProgress, error, videos } = useSelector(
     (state: RootState) => state.video
   );
 
@@ -61,11 +61,9 @@ export const useVideo = () => {
       const response = await axios.get("http://localhost:5000/api/videos");
       dispatch(setVideos(response.data));
     } catch (error: any) {
-      dispatch(
-        setError(error.response?.data?.message || "Failed to fetch videos")
-      );
+      dispatch(setError("Failed to fetch videos"));
     }
   };
 
-  return { uploadVideo, uploadProgress, error, fetchVideos };
+  return { uploadVideo, fetchVideos, videos, uploadProgress, error };
 };
