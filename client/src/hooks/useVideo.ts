@@ -26,20 +26,24 @@ export const useVideo = () => {
     formData.append("video", videoData.videoFile);
 
     try {
-      await axios.post("http://localhost:5000/api/videos/upload", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          if (progressEvent && progressEvent.total) {
-            const progress = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            console.log(`Progress: ${progress}%`);
-            dispatch(setUploadProgress(progress));
-          }
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/videos/upload",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          onUploadProgress: (progressEvent) => {
+            if (progressEvent && progressEvent.total) {
+              const progress = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              dispatch(setUploadProgress(progress));
+            }
+          },
+        }
+      );
+      return response.data;
     } catch (error: any) {
       dispatch(
         setError(error.response?.data?.message || "Failed to upload video")
