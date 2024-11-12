@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import { useChannel } from "../hooks/useChannel";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { FaRegBell } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
 import ChannelEditModal from "../components/ChannelEditModal";
 import ChannelDeleteModal from "../components/ChannelDeleteModal";
+import { RiVideoUploadFill } from "react-icons/ri";
 
 const ChannelPage = (): JSX.Element => {
   const { id: channelId } = useParams<{ id: string }>();
@@ -79,19 +80,29 @@ const ChannelPage = (): JSX.Element => {
               )}
             </div>
             {channel?.owner?._id === user?.id && (
-              <div className="flex mt-4 ml-3 gap-4">
-                <button
-                  onClick={handleEdit}
-                  className="bg-blue-500 px-2 py-1 text-white rounded-md hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
-                >
-                  <MdEdit /> Edit
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className="bg-red-500 px-2 py-1 text-white rounded-md hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
-                >
-                  <MdDelete /> Delete
-                </button>
+              <div>
+                <div className="flex mt-4 ml-3 gap-4">
+                  <button
+                    onClick={handleEdit}
+                    className="bg-blue-500 px-2 py-1 text-white rounded-md hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
+                  >
+                    <MdEdit /> Edit
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="bg-red-500 px-2 py-1 text-white rounded-md hover:opacity-70 transition-all duration-300 ease-linear flex items-center gap-1"
+                  >
+                    <MdDelete /> Delete
+                  </button>
+                </div>
+                <div className="flex mt-4 ml-3 gap-4">
+                  <Link
+                    to="/video-upload"
+                    className="bg-green-500 px-4 rounded-md py-2 flex items-center gap-1"
+                  >
+                    <RiVideoUploadFill /> Upload Video
+                  </Link>
+                </div>
               </div>
             )}
           </div>
