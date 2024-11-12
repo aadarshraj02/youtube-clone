@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { setUploadProgress, setError } from "../redux/slices/videoSlice";
+import {
+  setUploadProgress,
+  setError,
+  setVideos,
+} from "../redux/slices/videoSlice";
 
 interface VideoData {
   title: string;
@@ -52,5 +56,16 @@ export const useVideo = () => {
     }
   };
 
-  return { uploadVideo, uploadProgress, error };
+  const fetchVideos = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/videos");
+      dispatch(setVideos(response.data));
+    } catch (error: any) {
+      dispatch(
+        setError(error.response?.data?.message || "Failed to fetch videos")
+      );
+    }
+  };
+
+  return { uploadVideo, uploadProgress, error, fetchVideos };
 };
