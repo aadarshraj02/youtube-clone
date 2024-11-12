@@ -112,7 +112,15 @@ const ChannelPage = (): JSX.Element => {
         <p className="text-2xl mx-2 text-center sm:text-left">Videos</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-5">
-        <VideoCard />
+        {channel?.videos?.map((video) => (
+          <VideoCard
+            key={video._id}
+            title={video.title}
+            thumbnailUrl={video.thumbnailUrl}
+            views={video.views}
+            createdAt={video.uploadDate}
+          />
+        ))}
       </div>
       {isEditModalOpen && channelId && (
         <ChannelEditModal
