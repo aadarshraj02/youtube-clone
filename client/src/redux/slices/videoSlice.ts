@@ -28,5 +28,5 @@ const videoSlice = createSlice({
   },
 });
 
-export const { setUploadProgress, setError,setVideos } = videoSlice.actions;
+export const { setUploadProgress, setError, setVideos } = videoSlice.actions;
 export default videoSlice.reducer;
