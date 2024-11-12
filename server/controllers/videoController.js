@@ -4,7 +4,7 @@ import Channel from "../model/Channel.js";
 import { formatCount } from "../utilities/formatCount.js";
 
 export const uploadVideo = async (req, res) => {
-  const { title, description, thumbnailUrl } = req.body;
+  const { title, description, thumbnailUrl,category } = req.body;
 
   if (!title || !thumbnailUrl || !req.file)
     return res.status(400).json({
