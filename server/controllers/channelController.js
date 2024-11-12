@@ -50,7 +50,7 @@ export const getChannel = async (req, res) => {
     const channel = await Channel.findById(channelId)
       .populate({
         path: "videos",
-        select: "title thumbnailUrl views createdAt",
+        select: "title thumbnailUrl views category",
       })
       .populate("owner", "username avatar");
 

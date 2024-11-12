@@ -2,7 +2,7 @@ interface VideoCardProps {
   title: string;
   thumbnailUrl: string;
   views: number;
-  createdAt: string;
+  category: string;
 }
 
 const formatCount = (count: number) => {
@@ -13,24 +13,22 @@ const formatCount = (count: number) => {
   }
 };
 
-const formatDate = (dateString: string) => {
-  let date = new Date(dateString);
-  if (isNaN(date.getTime())) {
-    date = new Date(Date.parse(dateString));
-  }
-  return isNaN(date.getTime())
-    ? "Date unavailable"
-    : date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-};
-
-
-const VideoCard = ({ title, thumbnailUrl, views, createdAt }: VideoCardProps): JSX.Element => {
+const VideoCard = ({
+  title,
+  thumbnailUrl,
+  views,
+  category,
+}: VideoCardProps): JSX.Element => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 flex flex-col hover:shadow-lg transition-all duration-300 ease-linear cursor-pointer">
-      <img src={thumbnailUrl} alt={title} className="rounded-lg h-40 w-full object-cover" />
-      <h3 className="mt-2 font-semibold text-lg">{title}</h3>
+      <img
+        src={thumbnailUrl}
+        alt={title}
+        className="rounded-lg h-40 w-full object-cover"
+      />
+      <h3 className="mt-2 font-semibold text-lg uppercase">{title}</h3>
       <p className="text-gray-600">{formatCount(views)} views</p>
-      <p className="text-gray-500 text-sm">{formatDate(createdAt)}</p>
+      <p className="text-gray-500 text-sm">Category: {category}</p>
     </div>
   );
 };

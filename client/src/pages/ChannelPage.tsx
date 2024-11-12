@@ -118,7 +118,7 @@ const ChannelPage = (): JSX.Element => {
             title={video.title}
             thumbnailUrl={video.thumbnailUrl}
             views={video.views}
-            createdAt={video.uploadDate}
+            category={video.category} 
           />
         ))}
       </div>
