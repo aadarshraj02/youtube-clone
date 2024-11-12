@@ -115,6 +115,7 @@ const ChannelPage = (): JSX.Element => {
         {channel?.videos?.map((video) => (
           <VideoCard
             key={video._id}
+            videoId={video._id}
             title={video.title}
             thumbnailUrl={video.thumbnailUrl}
             views={video.views}
