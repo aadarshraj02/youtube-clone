@@ -46,10 +46,12 @@ export const createChannel = async (req, res) => {
 
 export const getChannel = async (req, res) => {
   const { channelId } = req.params;
-
   try {
     const channel = await Channel.findById(channelId)
-      .populate("videos")
+      .populate({
+        path: "videos",
+        select: "title thumbnailUrl views createdAt",
+      })
       .populate("owner", "username avatar");
 
     if (!channel) {
@@ -60,10 +62,10 @@ export const getChannel = async (req, res) => {
       subscribers: formatCount(channel.subscribers),
       avatar: channel.owner.avatar,
     };
-
     res.json(formattedChannel);
   } catch (error) {
-    return res.status(500).json({ message: "Error fetching channel", error });
+    console.error("Error fetching channel:", error);
+    res.status(500).json({ message: "Error fetching channel", error });
   }
 };
 
