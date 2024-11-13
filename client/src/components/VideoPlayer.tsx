@@ -7,12 +7,10 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 const VideoPlayer = (): JSX.Element => {
   return (
-    <div className="w-full md:w-3/4 py-4 px-8">
+    <div className="w-full lg:w-3/4 py-4 sm:px-8 px-2">
       <div className="w-full">
-        <img
-          className="w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[75vh] rounded-lg"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&s"
-          alt=""
+        <div
+          className="w-full h-[30vh] sm:h-[50vh] md:h-[60vh] lg:h-[40vh] xl:h-[70vh] rounded-lg bg-black"
         />
       </div>
       <div className="my-1">
@@ -46,7 +44,7 @@ const VideoPlayer = (): JSX.Element => {
           <button className="bg-zinc-900 text-white px-2 py-1 rounded-full flex items-center gap-1">
             <PiShareFatLight /> Share
           </button>
-          <button className="bg-zinc-900 text-white px-2 py-1 rounded-full flex items-center gap-1">
+          <button className="bg-zinc-900 text-white px-2 py-1 rounded-full sm:flex items-center gap-1 hidden">
             <LiaDownloadSolid /> Download
           </button>
         </div>

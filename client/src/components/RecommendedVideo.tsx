@@ -1,6 +1,6 @@
 const RecommendedVideo = (): JSX.Element => {
   return (
-    <div className="py-4 md:flex gap-2 hidden">
+    <div className="py-4 lg:flex gap-2 hidden">
       <div>
         <img
           className="w-40 rounded-lg"
