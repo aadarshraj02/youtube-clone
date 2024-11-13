@@ -4,7 +4,7 @@ import Channel from "../model/Channel.js";
 import { formatCount } from "../utilities/formatCount.js";
 
 export const uploadVideo = async (req, res) => {
-  const { title, description, thumbnailUrl,category } = req.body;
+  const { title, description, thumbnailUrl, category } = req.body;
 
   if (!title || !thumbnailUrl || !req.file)
     return res.status(400).json({
@@ -74,6 +74,14 @@ export const getVideoWithComments = async (req, res) => {
     const video = await Video.findById(id)
       .populate("uploader", "username")
       .populate({
+        path: "channelId",
+        select: "channelId channelName subscribers owner",
+        populate: {
+          path: "owner",
+          select: "avatar",
+        },
+      })
+      .populate({
         path: "comments.userId",
         select: "username",
       })
@@ -83,17 +91,18 @@ export const getVideoWithComments = async (req, res) => {
       return res.status(404).json({ message: "Video not found" });
     }
 
-    const formattedComments = video.comments.map((comment) => ({
-      commentText: comment.commentText,
-      username: comment.username,
-      timestamp: comment.timestamp,
-    }));
     const formattedVideo = {
       ...video.toObject(),
       views: formatCount(video.views),
       likes: formatCount(video.likes),
       dislikes: formatCount(video.dislikes),
     };
+
+    const formattedComments = video.comments.map((comment) => ({
+      commentText: comment.commentText,
+      username: comment.username,
+      timestamp: comment.timestamp,
+    }));
 
     res.json({ video: formattedVideo, comments: formattedComments });
   } catch (error) {

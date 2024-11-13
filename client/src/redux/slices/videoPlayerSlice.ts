@@ -3,7 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 interface Comment {
   commentText: string;
   username: string;
-  timestamp: string;
+}
+
+interface ChannelData {
+  _id: string;
+  channelName: string;
+  subscribers: number;
+  owner: {
+    avatar: string;
+  };
 }
 
 interface Video {
@@ -11,10 +19,14 @@ interface Video {
   description: string;
   thumbnailUrl: string;
   videoUrl: string;
-  views: string;
-  likes: string;
-  dislikes: string;
+  channelId: string | ChannelData;
+  uploader: string;
+  views: number;
+  likes: number;
+  dislikes: number;
   category: string;
+  comments: Comment[];
+  uploadDate: Date;
 }
 
 interface VideoPlayerState {
@@ -48,5 +60,6 @@ const videoPlayerSlice = createSlice({
   },
 });
 
-export const { setVideoLoading, setVideoError, setVideo } = videoPlayerSlice.actions;
+export const { setVideoLoading, setVideoError, setVideo } =
+  videoPlayerSlice.actions;
 export default videoPlayerSlice.reducer;
