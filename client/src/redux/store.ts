@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import channelReducer from "./slices/channelSlices.ts";
 import videoReducer from "./slices/videoSlice.ts";
+import videoPlayerReducer from "./slices/videoPlayerSlice.ts";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     channel: channelReducer,
     video: videoReducer,
+    videoPlayer: videoPlayerReducer,
   },
 });
 
