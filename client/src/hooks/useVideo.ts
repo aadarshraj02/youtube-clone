@@ -117,5 +117,7 @@ export const useVideo = () => {
     error,
     editVideo,
     deleteVideo,
+    isEditing,
+    isDeleting,
   };
 };
