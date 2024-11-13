@@ -120,6 +120,8 @@ const ChannelPage = (): JSX.Element => {
             thumbnailUrl={video.thumbnailUrl}
             views={video.views}
             category={video.category} 
+            channelId={channelId}
+            isOwner={channel?.owner?._id === user?.id} 
           />
         ))}
       </div>
