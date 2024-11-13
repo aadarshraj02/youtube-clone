@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useVideoPlayer } from "../hooks/useVideoPlayer";
 import { BiLike, BiDislike } from "react-icons/bi";
@@ -6,12 +6,19 @@ import { FaRegBell } from "react-icons/fa";
 import { PiShareFatLight } from "react-icons/pi";
 import { LiaDownloadSolid } from "react-icons/lia";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { IoMdSend } from "react-icons/io";
+import { MdOutlineCancel } from "react-icons/md";
 
 const VideoPlayer = (): JSX.Element => {
   const { id: videoId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { video, comments, fetchVideoDetails, isLoading, error } =
     useVideoPlayer(videoId!);
+
+    const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     if (videoId) {
@@ -36,6 +43,14 @@ const VideoPlayer = (): JSX.Element => {
     } else {
       return count.toString();
     }
+  };
+
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
+    setNewComment("");
+  };
+  const handleCancelComment = () => {
+    setNewComment("");
   };
 
   return (
@@ -100,6 +115,27 @@ const VideoPlayer = (): JSX.Element => {
       <p className="text-zinc-700">{video?.description}</p>
       <div className="my-5">
         <p>{comments.length} Comments</p>
+
+        {isAuthenticated && (
+        <div className="my-4">
+          <input
+          type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+            className="w-full p-2 border-b outline-none"
+          />
+          <div className="flex gap-3 justify-end mt-2">
+          <button onClick={handleAddComment} className="px-3 py-1 bg-green-500 text-white rounded flex gap-1 items-center">
+          <IoMdSend/>  Comment
+          </button>
+          <button onClick={handleCancelComment} className="px-3 py-1 bg-black text-white rounded flex gap-1 items-center">
+          <MdOutlineCancel/> Cancel
+          </button>
+          </div>
+         
+        </div>
+      )}
 
         <div className="my-2">
           {comments.map((comment, index) => (
