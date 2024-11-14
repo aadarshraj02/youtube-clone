@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addComment } from "../redux/slices/commentSlice"; // Import the action
+import { addComment } from "../redux/slices/commentSlice";
 
 const useComment = () => {
   const dispatch = useDispatch();

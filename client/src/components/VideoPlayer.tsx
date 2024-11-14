@@ -9,21 +9,22 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { IoMdSend } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
-import useComment from '../hooks/useComment';
+import useComment from "../hooks/useComment";
 
 const VideoPlayer = (): JSX.Element => {
   const { id: videoId } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { video, comments, fetchVideoDetails, isLoading, error } = useVideoPlayer(videoId!);
+  const { video, comments, fetchVideoDetails, isLoading, error } =
+    useVideoPlayer(videoId!);
   const { addComment } = useComment();
-  const [commentText, setCommentText] = useState('');
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const [commentText, setCommentText] = useState("");
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
 
   useEffect(() => {
     if (videoId) {
       fetchVideoDetails();
-    } else {
-      console.error("Video ID is missing");
     }
   }, [videoId]);
 
@@ -47,7 +48,7 @@ const VideoPlayer = (): JSX.Element => {
   const handleAddComment = () => {
     if (!commentText.trim()) return;
     addComment(videoId!, commentText);
-    setCommentText(''); 
+    setCommentText("");
   };
 
   const handleCancelComment = () => {
@@ -66,16 +67,29 @@ const VideoPlayer = (): JSX.Element => {
         <div className="flex items-center">
           <img
             className="h-8 w-8 rounded-full cursor-pointer"
-            src={typeof video?.channelId === "object" ? video.channelId.owner.avatar : "No avatar"}
-            alt={typeof video?.channelId === "object" ? video.channelId.channelName : "Channel Avatar"}
+            src={
+              typeof video?.channelId === "object"
+                ? video.channelId.owner.avatar
+                : "No avatar"
+            }
+            alt={
+              typeof video?.channelId === "object"
+                ? video.channelId.channelName
+                : "Channel Avatar"
+            }
             onClick={goToChannel}
           />
           <div className="ml-2">
             <h2 onClick={goToChannel} className="text-[14px] cursor-pointer">
-              {typeof video?.channelId === "object" ? video.channelId.channelName : "Channel Name"}
+              {typeof video?.channelId === "object"
+                ? video.channelId.channelName
+                : ""}
             </h2>
             <p className="text-[12px]">
-              {typeof video?.channelId === "object" ? formatCount(video.channelId.subscribers) : "0"} subscribers
+              {typeof video?.channelId === "object"
+                ? formatCount(video.channelId.subscribers)
+                : ""}
+              subscribers
             </p>
           </div>
           <button className="bg-black text-white px-2 py-1 ml-6 rounded-full flex items-center gap-2">
@@ -102,8 +116,6 @@ const VideoPlayer = (): JSX.Element => {
       </p>
       <p className="text-zinc-700">{video?.description}</p>
       <div className="my-5">
-        <p>{comments.length} Comments</p>
-
         {isAuthenticated && (
           <div className="my-4">
             <input
@@ -114,10 +126,16 @@ const VideoPlayer = (): JSX.Element => {
               className="w-full p-2 border-b outline-none"
             />
             <div className="flex gap-3 justify-end mt-2">
-              <button onClick={handleAddComment} className="px-3 py-1 bg-green-500 text-white rounded flex gap-1 items-center">
+              <button
+                onClick={handleAddComment}
+                className="px-3 py-1 bg-green-500 text-white rounded flex gap-1 items-center"
+              >
                 <IoMdSend /> Comment
               </button>
-              <button onClick={handleCancelComment} className="px-3 py-1 bg-black text-white rounded flex gap-1 items-center">
+              <button
+                onClick={handleCancelComment}
+                className="px-3 py-1 bg-black text-white rounded flex gap-1 items-center"
+              >
                 <MdOutlineCancel /> Cancel
               </button>
             </div>
@@ -125,14 +143,24 @@ const VideoPlayer = (): JSX.Element => {
         )}
 
         <div className="my-2">
-          {comments.map((comment, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <div>
-                <p>{comment.username }</p>
-                <p>{comment.commentText}</p>
+          {comments && comments.length > 0 ? (
+            comments.map((comment, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <img
+                  src={comment?.userId?.avatar}
+                  alt="user avatar"
+                  className="h-8 w-8 rounded-full"
+                />
+
+                <div className="my-3">
+                  <p className="text-sm text-gray-500 -mb-1">@ {comment.username}</p>
+                  <p>{comment.commentText}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No comments available.</p>
+          )}
         </div>
       </div>
     </div>

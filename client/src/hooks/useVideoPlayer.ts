@@ -17,16 +17,25 @@ export const useVideoPlayer = (videoId: string) => {
   const fetchVideoDetails = async () => {
     dispatch(setVideoLoading(true));
     try {
-      const response = await axios.get(`http://localhost:5000/api/videos/${videoId}`);
-      const { video, comments } = response.data;
+      const videoResponse = await axios.get(
+        `http://localhost:5000/api/videos/${videoId}`
+      );
+      const { video } = videoResponse.data;
+
+      const commentsResponse = await axios.get(
+        `http://localhost:5000/api/comments/${videoId}`
+      );
+      const { comments } = commentsResponse.data;
+
       dispatch(setVideo({ video, comments }));
     } catch (error: any) {
-      dispatch(setVideoError(error.response?.data?.message || "Failed to fetch video"));
+      dispatch(
+        setVideoError(error.response?.data?.message || "Failed to fetch video")
+      );
     } finally {
       dispatch(setVideoLoading(false));
     }
   };
-  
 
   return { video, comments, fetchVideoDetails, isLoading, error };
 };

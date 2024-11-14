@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface Comment {
   commentText: string;
   username: string;
+  userId: string;
 }
 
 interface ChannelData {
