@@ -67,7 +67,7 @@ export const getAllVideos = async (req, res) => {
   }
 };
 
-export const getVideoWithComments = async (req, res) => {
+export const getVideoDetails = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -80,10 +80,6 @@ export const getVideoWithComments = async (req, res) => {
           path: "owner",
           select: "avatar",
         },
-      })
-      .populate({
-        path: "comments.userId",
-        select: "username",
       })
       .exec();
 
@@ -98,13 +94,7 @@ export const getVideoWithComments = async (req, res) => {
       dislikes: formatCount(video.dislikes),
     };
 
-    const formattedComments = video.comments.map((comment) => ({
-      commentText: comment.commentText,
-      username: comment.username,
-      timestamp: comment.timestamp,
-    }));
-
-    res.json({ video: formattedVideo, comments: formattedComments });
+    res.json({ video: formattedVideo });
   } catch (error) {
     return res.status(500).json({ message: "Error fetching video", error });
   }

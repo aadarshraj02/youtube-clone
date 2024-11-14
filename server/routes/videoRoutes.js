@@ -2,7 +2,7 @@ import express from "express";
 import {
   uploadVideo,
   getAllVideos,
-  getVideoWithComments,
+  getVideoDetails,
   updateVideo,
   deleteVideo,
   getVideosByCategory,
@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post("/upload", verifyToken, upload.single("video"), uploadVideo);
 router.get("/", getAllVideos);
-router.get("/:id", getVideoWithComments);
+router.get("/:id", getVideoDetails);
 router.put("/:id", verifyToken, updateVideo);
 router.delete("/:id", verifyToken, deleteVideo);
 router.get("/category/:category", getVideosByCategory);

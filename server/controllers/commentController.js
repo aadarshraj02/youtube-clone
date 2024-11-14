@@ -32,6 +32,27 @@ export const addComment = async (req, res) => {
   }
 };
 
+export const getCommentsByVideoId = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.videoId).populate({
+      path: "comments.userId",
+      select: "username avatar",
+    });
+
+    if (!video) {
+      return res
+        .status(404)
+        .json({ message: "No comments found for this video" });
+    }
+    res.status(200).json(video.comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching comments", error: error.message });
+  }
+};
+
 export const updateComment = async (req, res) => {
   const { videoId, commentId } = req.params;
   const { commentText } = req.body;
