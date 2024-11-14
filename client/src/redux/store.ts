@@ -3,6 +3,7 @@ import authReducer from "./slices/authSlice";
 import channelReducer from "./slices/channelSlices.ts";
 import videoReducer from "./slices/videoSlice.ts";
 import videoPlayerReducer from "./slices/videoPlayerSlice.ts";
+import recommendedVideoReducer from "./slices/recommnededVideosSlice.ts";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     channel: channelReducer,
     video: videoReducer,
     videoPlayer: videoPlayerReducer,
+    recommendedVideo: recommendedVideoReducer,
   },
 });
 
