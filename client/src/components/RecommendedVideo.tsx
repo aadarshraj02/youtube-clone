@@ -46,7 +46,7 @@ const RecommendedVideo = ({
         <h2 className="capitalize">{title}</h2>
         <p className="text-[12px]">{channelName}</p>
         <div className="flex gap-2">
-          <p className="text-[10px]">{formatCount(views)}</p>
+          <p className="text-[10px]">{formatCount(views)} views</p>
         </div>
       </div>
     </div>

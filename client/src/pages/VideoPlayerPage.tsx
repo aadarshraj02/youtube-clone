@@ -26,7 +26,7 @@ const VideoPlayerPage = (): JSX.Element => {
       <div className="flex">
         <VideoPlayer />
         <div className="flex flex-col gap-4">
-          {recommendedVideos.length > 0 ? (
+          {recommendedVideos.length &&
             recommendedVideos.slice(0, 7).map((video:any,index:number) => (
               <RecommendedVideo
                 key={index}
@@ -37,9 +37,7 @@ const VideoPlayerPage = (): JSX.Element => {
                 channelName={video.channelName}
               />
             ))
-          ) : (
-            <p>Loading recommended videos...</p>
-          )}
+          }
         </div>
       </div>
     </div>
