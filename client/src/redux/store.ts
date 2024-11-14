@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
-import channelReducer from "./slices/channelSlices.ts";
-import videoReducer from "./slices/videoSlice.ts";
-import videoPlayerReducer from "./slices/videoPlayerSlice.ts";
-import recommendedVideoReducer from "./slices/recommnededVideosSlice.ts";
+import channelReducer from "./slices/channelSlices";
+import videoReducer from "./slices/videoSlice";
+import videoPlayerReducer from "./slices/videoPlayerSlice";
+import recommendedVideoReducer from "./slices/recommnededVideosSlice";
+import searchReducer from "./slices/searchSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     video: videoReducer,
     videoPlayer: videoPlayerReducer,
     recommendedVideo: recommendedVideoReducer,
+    search: searchReducer,
   },
 });
 
