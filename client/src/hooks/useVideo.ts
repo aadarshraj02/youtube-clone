@@ -28,6 +28,8 @@ export const useVideo = () => {
     (state: RootState) => state.video
   );
 
+  const { selectedCategory } = useSelector((state: RootState) => state.search);
+
   const uploadVideo = async (videoData: VideoData) => {
     const formData = new FormData();
     formData.append("title", videoData.title);
@@ -65,7 +67,11 @@ export const useVideo = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/videos");
+      let url = "http://localhost:5000/api/videos";
+      if (selectedCategory !== "All") {
+        url = `http://localhost:5000/api/videos/category/${selectedCategory}`;
+      }
+      const response = await axios.get(url);
       dispatch(setVideos(response.data));
     } catch (error: any) {
       dispatch(setError("Failed to fetch videos"));

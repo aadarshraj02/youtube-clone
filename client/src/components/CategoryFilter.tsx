@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategoryFilter } from "../redux/slices/searchSlice";
+import { RootState } from "../redux/store";
 
-const Category = (): JSX.Element => {
+const CategoryFilter = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const { selectedCategory } = useSelector((state: RootState) => state.search);
+
   const categories = [
     "All",
     "Gaming",
@@ -12,10 +17,8 @@ const Category = (): JSX.Element => {
     "Travel",
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
   const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
+    dispatch(setCategoryFilter(category));
   };
 
   return (
@@ -39,4 +42,4 @@ const Category = (): JSX.Element => {
   );
 };
 
-export default Category;
+export default CategoryFilter;

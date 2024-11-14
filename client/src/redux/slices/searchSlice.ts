@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface SearchState {
   query: string;
   filteredVideos: any[];
+  selectedCategory: string;
 }
 
 const initialState: SearchState = {
   query: "",
   filteredVideos: [],
+  selectedCategory: "All",
 };
 
 const searchSlice = createSlice({
@@ -20,9 +22,12 @@ const searchSlice = createSlice({
     setFilteredVideos: (state, action) => {
       state.filteredVideos = action.payload;
     },
+    setCategoryFilter(state, action) {
+      state.selectedCategory = action.payload;
+    },
   },
 });
 
-export const { setQuery, setFilteredVideos } = searchSlice.actions;
+export const { setQuery, setFilteredVideos,setCategoryFilter } = searchSlice.actions;
 
 export default searchSlice.reducer;
