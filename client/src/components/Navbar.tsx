@@ -4,9 +4,10 @@ import { CgProfile } from "react-icons/cg";
 import { useEffect, useState } from "react";
 import ProfileSidenav from "./ProfileSidenav";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store"; 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import { useLocation } from "react-router-dom";
+import { setFilteredVideos, setQuery } from "../redux/slices/searchSlice";
 
 const Navbar = ({
   onToggleSidebar,
@@ -14,16 +15,32 @@ const Navbar = ({
   onToggleSidebar: () => void;
 }): JSX.Element => {
   const [isProfileSidenavOpen, setIsProfileSidenavOpen] = useState(false);
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const { query } = useSelector((state: RootState) => state.search);
+  const { videos } = useSelector((state: RootState) => state.video);
+  const dispatch = useDispatch();
 
   const location = useLocation();
 
   useEffect(() => {
-    setIsProfileSidenavOpen(false); 
+    setIsProfileSidenavOpen(false);
   }, [location]);
 
   const toggleProfileSidenav = () => {
     setIsProfileSidenavOpen((prev) => !prev);
+  };
+
+  const handleSearchChange = (e: any) => {
+    const searchQuery = e.target.value;
+    dispatch(setQuery(searchQuery));
+
+    const filteredVideos = videos.filter((video) =>
+      video.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    dispatch(setFilteredVideos(filteredVideos));
   };
 
   return (
@@ -42,11 +59,13 @@ const Navbar = ({
           />
         </Link>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center  gap-2">
         <input
           type="text"
           placeholder="Search videos here"
-          className="border rounded-full px-3 py-1 sm:w-[25vw] w-[30vw]"
+          className="border outline-none rounded-full px-3 py-1 sm:w-[25vw] w-[30vw]"
+          value={query}
+          onChange={handleSearchChange}
         />
         <IoSearchOutline className="text-gray-500" size={20} />
       </div>
@@ -56,7 +75,7 @@ const Navbar = ({
       >
         {isAuthenticated && user?.avatar ? (
           <img
-            src={user.avatar} 
+            src={user.avatar}
             alt="User Avatar"
             className="w-8 h-8 rounded-full"
           />
