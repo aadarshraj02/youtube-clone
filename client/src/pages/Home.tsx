@@ -22,7 +22,7 @@ const Home = (): JSX.Element => {
     return <p className="text-red-500">Error: {error}</p>;
   }
 
-  const videosToDisplay = query ? filteredVideos : videos;
+  const videosToDisplay = query && query.length > 0 ? filteredVideos : videos;
 
   return (
     <>
