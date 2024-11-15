@@ -13,6 +13,7 @@ import { restoreAuthState } from "./redux/slices/authSlice";
 import { useChannel } from "./hooks/useChannel";
 import { RootState } from "./redux/store";
 import VideoUpload from "./pages/VideoUpload";
+import { Toaster } from "react-hot-toast";
 
 const App = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -37,6 +38,7 @@ const App = (): JSX.Element => {
   return (
     <>
       <BrowserRouter>
+      <Toaster />
         <div className="max-w-full overflow-hidden">
           <Navbar onToggleSidebar={toggleSidebar} />
           <div className="flex">

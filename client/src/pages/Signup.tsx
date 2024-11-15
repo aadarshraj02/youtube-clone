@@ -5,6 +5,8 @@ import { useAuth } from "../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { AppDispatch } from "../redux/store";
+import { toast } from "react-hot-toast"; 
+import { PropagateLoader } from "react-spinners";
 
 const Signup = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,11 +44,21 @@ const Signup = (): JSX.Element => {
   }) => {
     try {
       await signup(values);
+      toast.success("Signup successful! Redirecting to login...");
       navigate("/login");
     } catch {
+      toast.error(error || "Signup failed");
       dispatch(setAuthError(error || "Signup failed"));
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[85vh]">
+        <PropagateLoader color="#36D7B7" size={15} />
+      </div>
+    );
+  }
 
   return (
     <Formik
