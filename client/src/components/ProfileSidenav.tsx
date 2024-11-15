@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { logout } from "../redux/slices/authSlice";
 
+//toggle to open or close sidenav
 interface ProfileSidenavProps {
   isOpen: boolean;
   toggleSidebar: () => void;
@@ -24,6 +25,7 @@ const ProfileSidenav = ({
     (state: RootState) => state.auth
   );
 
+  //use channel conditionally and manage state
   const userChannel = useSelector(
     (state: RootState) => state.channel.userChannel
   );
@@ -31,6 +33,7 @@ const ProfileSidenav = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Logout
   const handleLogout = () => {
     dispatch(logout());
     toggleSidebar();

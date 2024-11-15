@@ -9,6 +9,7 @@ import { RootState } from "../redux/store";
 import { useLocation } from "react-router-dom";
 import { setFilteredVideos, setQuery } from "../redux/slices/searchSlice";
 
+//toggle hamburger to open or close sidebar
 const Navbar = ({
   onToggleSidebar,
 }: {
@@ -32,6 +33,7 @@ const Navbar = ({
     setIsProfileSidenavOpen((prev) => !prev);
   };
 
+  //for search
   const handleSearchChange = (e: any) => {
     const searchQuery = e.target.value;
     dispatch(setQuery(searchQuery));
@@ -40,7 +42,7 @@ const Navbar = ({
       video.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    dispatch(setFilteredVideos(filteredVideos));
+    dispatch(setFilteredVideos(filteredVideos)); //for filtered video
   };
 
   return (

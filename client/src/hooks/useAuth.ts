@@ -5,6 +5,7 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  //custom hook for signup
   const signup = async (userData: {
     username: string;
     fullName: string;
@@ -28,6 +29,7 @@ export const useAuth = () => {
     }
   };
 
+  //custom hook for login
   const login = async (userData: { email: string; password: string }) => {
     setLoading(true);
     setError(null);
@@ -36,8 +38,8 @@ export const useAuth = () => {
         "http://localhost:5000/api/auth/login",
         userData
       );
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("token", response.data.token); //saving jwt token into local storage so even after page refresh it dot loose
+      localStorage.setItem("user", JSON.stringify(response.data.user)); //saving user into local storage
       setLoading(false);
       return response.data;
     } catch (err: any) {

@@ -18,6 +18,7 @@ export const useChannel = () => {
     (state: RootState) => state.channel
   );
 
+  //hook for creating channel
   const createChannel = async (channelData: ChannelData) => {
     try {
       const response = await axios.post(
@@ -39,6 +40,7 @@ export const useChannel = () => {
     }
   };
 
+  //hook to fetch channel
   const fetchChannel = async (channelId: string) => {
     try {
       const response = await axios.get(
@@ -50,6 +52,7 @@ export const useChannel = () => {
     }
   };
 
+  //hook to fetch user owned channel
   const fetchUserChannel = async () => {
     if (!userChannel) {
       try {
@@ -79,6 +82,8 @@ export const useChannel = () => {
     }
   };
 
+
+  //hook to edit user owned channel
   const editChannel = async (channelId: string, updatedData: ChannelData) => {
     try {
       const response = await axios.put(
@@ -99,6 +104,8 @@ export const useChannel = () => {
     }
   };
 
+
+  //hook for deleting channel
   const deleteChannel = async (channelId: string) => {
     try {
       await axios.delete(`http://localhost:5000/api/channels/${channelId}`, {

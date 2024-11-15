@@ -8,8 +8,12 @@ interface ChannelEditModalProps {
   onClose: () => void;
 }
 
-const ChannelEditModal = ({ channelId, currentName, currentDescription, onClose }: ChannelEditModalProps): JSX.Element => {
-
+const ChannelEditModal = ({
+  channelId,
+  currentName,
+  currentDescription,
+  onClose,
+}: ChannelEditModalProps): JSX.Element => {
   const { editChannel } = useChannel();
   const [name, setName] = useState(currentName);
   const [description, setDescription] = useState(currentDescription);
@@ -31,7 +35,7 @@ const ChannelEditModal = ({ channelId, currentName, currentDescription, onClose 
           className="border-b outline-none p-2 w-full mb-4"
           placeholder="Channel Name"
         />
-          <p className="text-sm">Channel Description</p>
+        <p className="text-sm">Channel Description</p>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -39,12 +43,18 @@ const ChannelEditModal = ({ channelId, currentName, currentDescription, onClose 
           placeholder="Channel Description"
         />
         <div className="flex justify-end gap-3">
-        <button onClick={handleUpdate} className="bg-green-500 text-white px-3 py-1 rounded-md">
-          Update
-        </button>
-        <button onClick={onClose} className=" bg-black text-white px-3 py-1 rounded-md">
-          Cancel
-        </button>
+          <button
+            onClick={handleUpdate}
+            className="bg-green-500 text-white px-3 py-1 rounded-md"
+          >
+            Update
+          </button>
+          <button
+            onClick={onClose}
+            className=" bg-black text-white px-3 py-1 rounded-md"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

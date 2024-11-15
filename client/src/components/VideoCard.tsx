@@ -15,6 +15,7 @@ interface VideoCardProps {
   isOwner?: boolean;
 }
 
+//for count into k,M 
 const formatCount = (count: number) => {
   if (count >= 1000) {
     return (count / 1000).toFixed(1).replace(/\.0$/, "") + "k";
@@ -23,10 +24,12 @@ const formatCount = (count: number) => {
   }
 };
 
+//truncate title to manage ui
 const truncateTitle = (title: string, maxLength: number) => {
   return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
 };
 
+// passed props
 const VideoCard = ({
   videoId,
   title,

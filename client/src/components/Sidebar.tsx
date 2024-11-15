@@ -3,6 +3,7 @@ import { FaHistory } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
+//basic sidebar
 const Sidebar = ({
   isOpen,
   toggleSidebar,

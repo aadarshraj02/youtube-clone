@@ -3,9 +3,10 @@ import { setCategoryFilter } from "../redux/slices/searchSlice";
 import { RootState } from "../redux/store";
 
 const CategoryFilter = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const { selectedCategory } = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch(); //dispatch action from redux
+  const { selectedCategory } = useSelector((state: RootState) => state.search); //selecting state from redux
 
+  //defined categories
   const categories = [
     "All",
     "Gaming",
@@ -18,7 +19,7 @@ const CategoryFilter = (): JSX.Element => {
   ];
 
   const handleCategorySelect = (category: string) => {
-    dispatch(setCategoryFilter(category));
+    dispatch(setCategoryFilter(category)); //dispatched action
   };
 
   return (

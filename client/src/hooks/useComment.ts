@@ -5,6 +5,7 @@ import { addComment } from "../redux/slices/commentSlice";
 const useComment = () => {
   const dispatch = useDispatch();
 
+  //hook for adding comment
   const addCommentHandler = async (videoId: string, commentText: string) => {
     try {
       const token = localStorage.getItem("token");
