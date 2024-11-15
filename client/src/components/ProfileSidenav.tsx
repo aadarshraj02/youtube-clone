@@ -88,14 +88,14 @@ const ProfileSidenav = ({
                 </li>
               )}
               <li className="mb-2">
-                <button className="flex items-center gap-2">
+                <Link to="/about" className="flex items-center gap-2">
                   <FcAbout /> About Us
-                </button>
+                </Link>
               </li>
               <li className="mb-2">
-                <button className="flex items-center gap-2">
+                <Link to="/contact" className="flex items-center gap-2">
                   <GrContact /> Contact Us
-                </button>
+                </Link>
               </li>
               <li className="mb-2">
                 <button
@@ -120,14 +120,14 @@ const ProfileSidenav = ({
               </Link>
             </li>
             <li className="mb-2">
-              <button className="flex items-center gap-2">
+              <Link to="/about" className="flex items-center gap-2">
                 <FcAbout /> About Us
-              </button>
+              </Link>
             </li>
             <li className="mb-2">
-              <button className="flex items-center gap-2">
+              <Link to="/contact" className="flex items-center gap-2">
                 <GrContact /> Contact Us
-              </button>
+              </Link>
             </li>
           </ul>
         )}

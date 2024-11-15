@@ -14,6 +14,7 @@ import { useChannel } from "./hooks/useChannel";
 import { RootState } from "./redux/store";
 import VideoUpload from "./pages/VideoUpload";
 import { Toaster } from "react-hot-toast";
+import About from "./pages/About";
 
 const App = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -59,6 +60,7 @@ const App = (): JSX.Element => {
           <Route path="/create-channel" element={<CreateChannelPage />} />
           <Route path="/channel/:id" element={<ChannelPage />} />
           <Route path="/video-upload" element={<VideoUpload />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </>
