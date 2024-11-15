@@ -4,6 +4,11 @@ A full-stack YouTube-like web application where users can watch videos, create c
 
 ---
 
+## Video Preview Link
+
+https://drive.google.com/file/d/1pN8AagVjU1vWpW1QGEmp9Sx0mxrTzhI0/view?usp=sharing
+
+
 ## 🚀 Features
 
 ### 🌐 Backend
